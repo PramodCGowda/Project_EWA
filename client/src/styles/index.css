@@ -1,0 +1,51 @@
+@import './products.css';
+@import './footer.css';
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #eee;
+  }
+
+  .carousel-control-next span,  .carousel-control-prev span{
+    background-color: rgba(0,0,0,0.5);
+    display: inline;
+    height: 40px;
+    font-weight: 700;
+  }
+
+.pc {
+  background-color: #24262b;
+}  
+
+.text-pc {
+  background-color: #24262b;
+}
+
+#main-search {
+  height: 75px;
+  border-radius: 16px;
+  box-shadow: 2px 2px 5px #333;
+  background-color: "#fff";
+  height: "40px",
+}
+
+#main-search:hover, #main-search:focus {
+  outline: none;
+  border: none;
+}
+
+#banner {
+  height: 50vh;
+  background-image: url('../../public/images/banner2.jpg');
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
