@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 function Footer() {
   return (
     <footer className="footer">
-      <div class="container">
+      <div className="container">
         <div className="row">
           <div className="footer-col">
             <h4>company</h4>

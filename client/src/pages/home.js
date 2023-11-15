@@ -48,6 +48,10 @@ function HomeScreen() {
     console.log(searchValue);
   };
 
+  const handleBookAppointment = (event) => {
+    window.location.href = "/taskData";
+  };
+
   return (
     <Layout>
       <div id="banner">
@@ -86,7 +90,11 @@ function HomeScreen() {
                         <Card.Body>
                           <Card.Title>{service.name}</Card.Title>
                           <Card.Text>{trimText(service.description)}</Card.Text>
-                          <Button size="md" variant="dark">
+                          <Button
+                            size="md"
+                            variant="dark"
+                            onClick={handleBookAppointment}
+                          >
                             Book Appointment
                           </Button>
                         </Card.Body>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Layout from "../components/layout";
-import axios from "axios";
 import Heading from "../components/heading";
+import { REPAIRMATE_TITLE } from "../mappings";
+import axios from "axios";
 
-export default function ServicesPage() {
+export default function RepairMatesPage() {
   const [data, setData] = useState([]);
 
   function trimText(text) {
@@ -28,14 +29,14 @@ export default function ServicesPage() {
       });
   }
 
-  const handleBookAppointment = (event) => {
-    window.location.href = "/taskData";
+  const handleConfirmAppointment = (event) => {
+    window.location.href = "/payment";
   };
 
   return (
     <Layout>
       <Container>
-        <Heading title={"All Services"} />
+        <Heading title={REPAIRMATE_TITLE} />
         <Row>
           {data && data.length
             ? data.map((service, index) => {
@@ -54,9 +55,9 @@ export default function ServicesPage() {
                         <Button
                           size="md"
                           variant="dark"
-                          onClick={handleBookAppointment}
+                          onClick={handleConfirmAppointment}
                         >
-                          Book Appointment
+                          Confirm Appointment
                         </Button>
                       </Card.Body>
                     </Card>
