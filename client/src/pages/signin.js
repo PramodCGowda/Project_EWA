@@ -11,12 +11,6 @@ function LoginScreen({ changeScreen }) {
     event.preventDefault();
     if (email && password) {
       const res = loginUser(email, password);
-      console.log("===>", res);
-      // if (res.status) {
-      //   window.location = "/";
-      // } else {
-      //   alert(res.message);
-      // }
     } else {
       alert("Please provide email and password !");
     }

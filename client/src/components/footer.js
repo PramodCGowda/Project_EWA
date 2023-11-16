@@ -3,8 +3,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 function Footer() {
   return (
     <footer className="footer">
-      <div className="container">
-        <div className="row">
+      <div className="container d-flex justify-content-center align-items-center">
+        <p style={{ color: "#fff", marginBottom: "0px" }}>
+          EWA @ Illinois Institute if Technology. 2023
+        </p>
+        {/* <div className="row">
           <div className="footer-col">
             <h4>company</h4>
             <ul>
@@ -73,7 +76,7 @@ function Footer() {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

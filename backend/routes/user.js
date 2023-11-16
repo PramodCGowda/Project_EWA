@@ -48,6 +48,23 @@ router.post("/", async (req, res) => {
 
 module.exports = router;
 
+router.post("/add", async (req, res) => {
+  try {
+    const newUser = new User({ ...req.body });
+    const addUser = await newUser.save();
+    return res.status(200).json({
+      message: "Successfully Fetched !",
+      user: addUser,
+    });
+  } catch (err) {
+    console.log("Err", err);
+    return res.status(500).json({
+      message: "Unable to add service at the moment !",
+      user: null,
+    });
+  }
+});
+
 //........................AUTH.................
 //Signup api
 router.post("/signup", (req, res) => {

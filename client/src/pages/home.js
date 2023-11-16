@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import {
   Container,
   Row,
@@ -12,10 +12,12 @@ import {
 import Layout from "../components/layout";
 import axios from "axios";
 import Heading from "../components/heading";
+import { ArrowUpRight, Twitter } from "react-feather";
 
 function HomeScreen() {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState([]);
   const [categoryId, setCategoryId] = useState("1");
 
@@ -40,35 +42,96 @@ function HomeScreen() {
     getData();
   }, []);
 
-  const handleSearchChange = (e) => {
-    setSearchValue(e.target.value);
-    console.log(searchValue);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    console.log(searchValue);
+  const handleSearchChange = (val) => {
+    if (val === "") setSearchResults([]);
+    setSearchValue(val);
   };
 
   const handleBookAppointment = (service) => {
     console.log("at home page service detials", service);
     setCategoryId(service.name);
-    window.location.href = "/taskData/" + categoryId;
+    window.location.href = "/task/" + categoryId;
   };
+
+  function debounce(func, timeout = 800) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
+  function getSearchResults() {
+    if (searchValue.length > 3) {
+      axios
+        .get("http://localhost:9000/api/service")
+        .then((response) => {
+          let data = response?.data?.services || [];
+          setSearchResults(data);
+        })
+        .catch((err) => {
+          alert("Error !!!");
+        });
+    }
+  }
+
+  const processChange = debounce(() => getSearchResults());
 
   return (
     <Layout>
       <div id="banner">
         <Container>
-          <h3 className="font-weight-bold">Home service at your door step.</h3>
-          <InputGroup size="lg" className="mb-3">
-            <Form.Control
-              id="main-search"
-              placeholder="What service are you looking for ? "
-              aria-label="Recipient's username"
-              aria-describedby="basic-addon2"
-            />
-          </InputGroup>
+          <div style={{ position: "relative" }}>
+            <InputGroup className="mb-0" size="lg">
+              <Form.Control
+                className="mb-0"
+                onKeyUp={processChange}
+                value={searchValue}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                id="main-search"
+                placeholder="What service are you looking for ? "
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+              />
+            </InputGroup>
+            {searchResults.length && searchValue.length > 3 ? (
+              <div
+                style={{
+                  position: "absolute",
+                  padding: "24px",
+                  paddingTop: "40px",
+                  borderBottomLeftRadius: "16px",
+                  borderBottomRightRadius: "16px",
+                  marginTop: "-16px",
+                  height: "200px",
+                  width: "100%",
+                  backgroundColor: "#fff",
+                  overflowX: "scroll",
+                  border: "1px solid #808080",
+                  borderTop: 0,
+                }}
+              >
+                {searchResults.map((result) => {
+                  console.log("result", result);
+                  return (
+                    <div
+                      onClick={() =>
+                        (window.location.href = "/task/" + result._id)
+                      }
+                      key={result.name + result.id}
+                      style={{ cursor: "pointer", marginBottom: "16px" }}
+                      className="d-flex justify-content-between align-items-center"
+                    >
+                      <p className="mb-0">{result.name}</p>
+                      <ArrowUpRight color="#808080" />
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
         </Container>
       </div>
       <Container>
@@ -85,9 +148,9 @@ function HomeScreen() {
                   return (
                     <Col
                       key={service.name + service.category}
-                      xs="6"
+                      xs="12"
                       md="4"
-                      lg="4"
+                      lg="3"
                     >
                       <Card style={{ width: "auto", marginBottom: "24px" }}>
                         <Card.Img variant="top" src="/images/homecleaner.jpg" />
@@ -96,6 +159,7 @@ function HomeScreen() {
                           <Card.Text>{trimText(service.description)}</Card.Text>
                           <Button
                             size="md"
+                            className="w-100"
                             variant="dark"
                             onClick={() => {
                               handleBookAppointment(service);

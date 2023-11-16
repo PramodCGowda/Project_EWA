@@ -25,15 +25,8 @@ import { URL_PREFIX } from "../config";
 // }
 
 export function loginUser(email, password) {
-  axios
-    .post(URL_PREFIX + "user/login", { email, password })
-    .then((response) => {
-      console.log(response);
-      if (response.status === 200) {
-        return { status: true, message: "" };
-      }
-    })
-    .catch((error) => {
-      return { status: false, message: "Something went wrong!" };
-    });
+  //api
+  localStorage.setItem("username", "pramod Gowda");
+  localStorage.setItem("userId", "7652138");
+  window.location = "/";
 }

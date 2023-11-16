@@ -6,6 +6,8 @@ const cors = require("cors");
 //Importing Routes
 const services = require("./routes/service");
 const users = require("./routes/user");
+const providers = require("./routes/provider");
+const categories = require("./routes/category");
 
 // // create application/json parser
 // var jsonParser = bodyParser.json()
@@ -17,6 +19,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/service", services);
+
+app.use("/api/provider", providers);
+
+app.use("/api/category", categories);
 
 app.use("/api/user", users);
 

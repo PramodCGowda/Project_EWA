@@ -9,14 +9,17 @@ import ServicesPage from "../pages/services";
 import TaskDataPage from "../pages/taskData";
 import RepairMatesPage from "../pages/repairmates";
 import PaymentPage from "../pages/payment";
+import AboutPage from "../pages/about";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomeScreen /> },
   // { path: "/signin", element: <SigninScreen /> },
   // { path: "/signup", element: <SignupScreen /> },
   { path: "/services", element: <ServicesPage /> },
+  { path: "/services", element: <ServicesPage /> },
   { path: "/auth", element: <AuthScreen /> },
-  { path: "/taskData/:categoryId", element: <TaskDataPage /> },
+  { path: "/task/:serviceId", element: <TaskDataPage /> },
   { path: "/repairmates", element: <RepairMatesPage /> },
   { path: "/payment", element: <PaymentPage /> },
+  { path: "/about", element: <AboutPage /> },
 ]);

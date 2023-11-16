@@ -21,15 +21,15 @@ export default function ServicesPage() {
       .get("http://localhost:9000/api/service")
       .then(function (response) {
         const temp = response.data.services;
-        setData([...temp, ...temp, ...temp]);
+        setData(temp);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  const handleBookAppointment = (event) => {
-    window.location.href = "/taskData";
+  const handleBookAppointment = (id) => {
+    window.location.href = "/task/" + id;
   };
 
   return (
@@ -44,7 +44,7 @@ export default function ServicesPage() {
                     key={service.name + service.category}
                     xs="6"
                     md="4"
-                    lg="4"
+                    lg="3"
                   >
                     <Card style={{ width: "auto", marginBottom: "24px" }}>
                       <Card.Img variant="top" src="/images/homecleaner.jpg" />
@@ -53,8 +53,9 @@ export default function ServicesPage() {
                         <Card.Text>{trimText(service.description)}</Card.Text>
                         <Button
                           size="md"
+                          className="w-100"
                           variant="dark"
-                          onClick={handleBookAppointment}
+                          onClick={() => handleBookAppointment(service._id)}
                         >
                           Book Appointment
                         </Button>

@@ -18,10 +18,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    zipcode: {
-      type: String,
+    isSubscribed: {
+      type: Boolean,
       required: false,
-      length: 6,
+      default: false,
     },
   },
   { timestamps: true }
