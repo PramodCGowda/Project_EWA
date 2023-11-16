@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
   // { path: "/signup", element: <SignupScreen /> },
   { path: "/services", element: <ServicesPage /> },
   { path: "/auth", element: <AuthScreen /> },
-  { path: "/taskData", element: <TaskDataPage /> },
+  { path: "/taskData/:categoryId", element: <TaskDataPage /> },
   { path: "/repairmates", element: <RepairMatesPage /> },
   { path: "/payment", element: <PaymentPage /> },
 ]);

@@ -17,6 +17,7 @@ function HomeScreen() {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [data, setData] = useState([]);
+  const [categoryId, setCategoryId] = useState("1");
 
   function trimText(text) {
     if (text.length < 100) return text;
@@ -27,6 +28,7 @@ function HomeScreen() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
+        console.log("data at home page", response.data.services);
         setData(response.data.services);
       })
       .catch(function (error) {
@@ -48,8 +50,10 @@ function HomeScreen() {
     console.log(searchValue);
   };
 
-  const handleBookAppointment = (event) => {
-    window.location.href = "/taskData";
+  const handleBookAppointment = (service) => {
+    console.log("at home page service detials", service);
+    setCategoryId(service.name);
+    window.location.href = "/taskData/" + categoryId;
   };
 
   return (
@@ -93,7 +97,9 @@ function HomeScreen() {
                           <Button
                             size="md"
                             variant="dark"
-                            onClick={handleBookAppointment}
+                            onClick={() => {
+                              handleBookAppointment(service);
+                            }}
                           >
                             Book Appointment
                           </Button>

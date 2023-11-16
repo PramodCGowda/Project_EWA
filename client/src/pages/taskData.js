@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import Layout from "../components/layout";
 import Heading from "../components/heading";
 import { TASK_TITLE } from "../mappings";
 
 export default function TaskDataPage() {
+  const params = useParams();
+
   const handleFindRepairMate = (event) => {
     window.location.href = "/repairmates";
   };
+
+  useEffect(() => {
+    console.log("param in task page", params.categoryId);
+  }, []);
 
   return (
     <Layout>
