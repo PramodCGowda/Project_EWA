@@ -12,13 +12,14 @@ import {
 import Layout from "../components/layout";
 import axios from "axios";
 import Heading from "../components/heading";
-import { ArrowUpRight, Twitter } from "react-feather";
+import { ArrowUpRight, Star, Twitter } from "react-feather";
 
 function HomeScreen() {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState([]);
+  const [providers, setProviders] = useState([]);
   const [categoryId, setCategoryId] = useState("1");
 
   function trimText(text) {
@@ -30,7 +31,7 @@ function HomeScreen() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
-        console.log("data at home page", response.data.services);
+        console.log("home page service", data);
         setData(response.data.services);
       })
       .catch(function (error) {
@@ -42,15 +43,30 @@ function HomeScreen() {
     getData();
   }, []);
 
+  async function getProviders() {
+    axios
+      .get("http://localhost:9000/api/provider")
+      .then(function (response) {
+        console.log("providers", response.data.providers);
+        setProviders(response.data.providers);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getProviders();
+  }, []);
+
   const handleSearchChange = (val) => {
     if (val === "") setSearchResults([]);
     setSearchValue(val);
   };
 
-  const handleBookAppointment = (service) => {
-    console.log("at home page service detials", service);
-    setCategoryId(service.name);
-    window.location.href = "/task/" + categoryId;
+  const handleBookAppointment = (provider) => {
+    setCategoryId(provider._id);
+    window.location.href = "/task/" + provider._id;
   };
 
   function debounce(func, timeout = 800) {
@@ -136,18 +152,18 @@ function HomeScreen() {
       </div>
       <Container>
         <Heading
-          title={"Popular Providers"}
+          title={"Recomended Providers For You"}
           hasBtn={true}
           btnText={"View All"}
-          btnFn={() => navigate("services")}
+          btnFn={() => navigate("repairmates")}
         />
         <Row>
-          {data && data.length
-            ? data.map((service, index) => {
+          {providers && providers.length
+            ? providers.map((provider, index) => {
                 if (index < 7) {
                   return (
                     <Col
-                      key={service.name + service.category}
+                      key={provider.name + provider.category}
                       xs="12"
                       md="4"
                       lg="3"
@@ -155,14 +171,24 @@ function HomeScreen() {
                       <Card style={{ width: "auto", marginBottom: "24px" }}>
                         <Card.Img variant="top" src="/images/homecleaner.jpg" />
                         <Card.Body>
-                          <Card.Title>{service.name}</Card.Title>
-                          <Card.Text>{trimText(service.description)}</Card.Text>
+                          <Card.Title>{provider.userID}</Card.Title>
+                          <Card.Text>{provider.serviceID}</Card.Text>
+                          <div className="d-flex justify-content-between align-items-center">
+                            {Array.from({ length: provider.rating }).map(
+                              (_, index) => (
+                                <Card.Text key={index}>
+                                  <Star fill="black" size={18} />
+                                </Card.Text>
+                              )
+                            )}
+                            <h4 className="text-success">$92</h4>
+                          </div>
                           <Button
                             size="md"
                             className="w-100"
                             variant="dark"
                             onClick={() => {
-                              handleBookAppointment(service);
+                              handleBookAppointment(provider._id);
                             }}
                           >
                             Book Appointment

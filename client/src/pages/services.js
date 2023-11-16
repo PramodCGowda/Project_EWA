@@ -13,6 +13,7 @@ export default function ServicesPage() {
   }
 
   useEffect(() => {
+    console.log("inside services");
     getData();
   }, []);
 
@@ -21,6 +22,7 @@ export default function ServicesPage() {
       .get("http://localhost:9000/api/service")
       .then(function (response) {
         const temp = response.data.services;
+        console.log(temp);
         setData(temp);
       })
       .catch(function (error) {
@@ -47,7 +49,7 @@ export default function ServicesPage() {
                     lg="3"
                   >
                     <Card style={{ width: "auto", marginBottom: "24px" }}>
-                      <Card.Img variant="top" src="/images/homecleaner.jpg" />
+                      <Card.Img variant="top" src={service.image} />
                       <Card.Body>
                         <Card.Title>{service.name}</Card.Title>
                         <Card.Text>{trimText(service.description)}</Card.Text>

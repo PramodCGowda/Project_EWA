@@ -38,6 +38,23 @@ router.get("/:name", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  const userId = decodeURIComponent(req.params.id);
+  console.log("userId", userId);
+  try {
+    const user = await User.find(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user by name:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // -----------------POST REQUESTS
 
 router.post("/", async (req, res) => {

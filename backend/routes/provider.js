@@ -10,12 +10,12 @@ router.get("/", async (req, res) => {
     const allProviders = await Provider.find();
     return res.status(200).json({
       message: "Successfully Fetched !",
-      serviceProviders: allProviders,
+      providers: allProviders,
     });
   } catch (err) {
     return res.status(500).json({
       message: "Something Went Wrong !",
-      serviceProviders: null,
+      providers: null,
     });
   }
 });
@@ -28,13 +28,13 @@ router.post("/add", async (req, res) => {
     const addedProvider = await newProvider.save();
     return res.status(200).json({
       message: "Successfully Fetched !",
-      serviceProviders: addedProvider,
+      providers: addedProvider,
     });
   } catch (err) {
     console.log("Err", err);
     return res.status(500).json({
       message: "Unable to add service at the moment !",
-      serviceProviders: null,
+      providers: null,
     });
   }
 });

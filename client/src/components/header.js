@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 
 function Header() {
   const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     let id = localStorage.getItem("userId");
     if (id) {
       let name = localStorage.getItem("username");
       setUserName(name);
+      setUserId(id);
     }
   }, []);
 
@@ -28,9 +30,9 @@ function Header() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/about">Team</Nav.Link>
             <Nav.Link href="/services">All Services</Nav.Link>
-            <Nav.Link href="#pricing">Contact Us</Nav.Link>
+            <Nav.Link href="/about">Click Me</Nav.Link>
+            <Nav.Link href="/about">About Us</Nav.Link>
           </Nav>
           <Nav>
             {userName ? (
@@ -38,7 +40,9 @@ function Header() {
                 title={`Welcome, ${userName}`}
                 id="navbarScrollingDropdown"
               >
-                <NavDropdown.Item href="#">My Profile</NavDropdown.Item>
+                <NavDropdown.Item href={"/userinfo/" + userId}>
+                  My Profile
+                </NavDropdown.Item>
                 <NavDropdown.Item onClick={signout}>Logout</NavDropdown.Item>
               </NavDropdown>
             ) : (

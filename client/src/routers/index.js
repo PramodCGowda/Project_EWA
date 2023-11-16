@@ -10,6 +10,7 @@ import TaskDataPage from "../pages/taskData";
 import RepairMatesPage from "../pages/repairmates";
 import PaymentPage from "../pages/payment";
 import AboutPage from "../pages/about";
+import UserInfo from "../pages/userinfo";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomeScreen /> },
@@ -22,4 +23,5 @@ export const router = createBrowserRouter([
   { path: "/repairmates", element: <RepairMatesPage /> },
   { path: "/payment", element: <PaymentPage /> },
   { path: "/about", element: <AboutPage /> },
+  { path: "/userinfo/:userId", element: <UserInfo /> },
 ]);
