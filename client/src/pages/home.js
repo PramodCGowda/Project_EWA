@@ -21,6 +21,7 @@ function HomeScreen() {
   const [data, setData] = useState([]);
   const [providers, setProviders] = useState([]);
   const [categoryId, setCategoryId] = useState("1");
+  const [isSubscribed, setIsSubscribed] = useState("");
 
   function trimText(text) {
     if (text.length < 100) return text;
@@ -43,6 +44,11 @@ function HomeScreen() {
   }, []);
 
   async function getProviders() {
+    let user = localStorage.getItem("user");
+    let userData = JSON.parse(user);
+    if (userData?.isSubscribed) {
+      setIsSubscribed(userData.isSubscribed);
+    }
     axios
       .get("http://localhost:9000/api/provider")
       .then(function (response) {
@@ -148,7 +154,7 @@ function HomeScreen() {
           </div>
         </Container>
       </div>
-      {true ? (
+      {!isSubscribed ? (
         <div
           style={{
             backgroundColor: "rgba(0,0,0,0.9)",

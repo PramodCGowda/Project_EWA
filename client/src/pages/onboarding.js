@@ -64,15 +64,14 @@ export default function OnboardingPage() {
           aboutme,
         })
         .then(function (response) {
-          //console.log(response);
           let user = localStorage.getItem("user");
           let userData = JSON.parse(user);
-          if (userData?.isSubscribed) {
-            userData.isSubscribed = "true";
+          if (userData) {
+            userData.isSubscribed = true;
             localStorage.setItem("user", JSON.stringify(userData));
           }
           let usernew = localStorage.getItem("user");
-          //console.log(usernew);
+          console.log(usernew);
           window.location.href = "/";
         })
         .catch(function (error) {
