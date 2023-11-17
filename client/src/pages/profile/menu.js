@@ -23,24 +23,24 @@ const options = [
     description: "Manage your membership, view benefits, and payment settings",
     goto: "/",
   },
-  {
-    name: "My Profile",
-    icon: <User size="40" />,
-    description: "Manage your membership, view benefits, and payment settings",
-    goto: "/",
-  },
-  {
-    name: "My Appointments",
-    icon: <Calendar size="40" />,
-    description: "Manage your membership, view benefits, and payment settings",
-    goto: "/",
-  },
-  {
-    name: "My Payments",
-    icon: <DollarSign size="40" />,
-    description: "Manage your membership, view benefits, and payment settings",
-    goto: "/",
-  },
+  // {
+  //   name: "My Profile",
+  //   icon: <User size="40" />,
+  //   description: "Manage your membership, view benefits, and payment settings",
+  //   goto: "/",
+  // },
+  // {
+  //   name: "My Appointments",
+  //   icon: <Calendar size="40" />,
+  //   description: "Manage your membership, view benefits, and payment settings",
+  //   goto: "/",
+  // },
+  // {
+  //   name: "My Payments",
+  //   icon: <DollarSign size="40" />,
+  //   description: "Manage your membership, view benefits, and payment settings",
+  //   goto: "/",
+  // },
 ];
 
 export default function ProfileMenuScreen() {

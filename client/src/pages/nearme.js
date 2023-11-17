@@ -63,7 +63,7 @@ const MapWindow = () => {
             onClick={!isLoading ? handleClick : null}
             style={{}}
           >
-            {isLoading ? "Loading…" : "Click to get the current location"}
+            {isLoading ? "Loading…" : "Click to get the repairmates near you"}
           </Button>
         </div>
         {showMap ? (
@@ -88,7 +88,7 @@ const MapWindow = () => {
           </div>
         ) : (
           <div style={{ textAlign: "center", padding: " 100px 0px" }}>
-            <p className="text-secondary">Click to get the current location</p>
+            <p className="text-secondary">Click to get the Providers</p>
           </div>
         )}
       </div>

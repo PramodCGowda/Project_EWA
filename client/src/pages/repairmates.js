@@ -4,6 +4,7 @@ import Layout from "../components/layout";
 import Heading from "../components/heading";
 import { REPAIRMATE_TITLE } from "../mappings";
 import axios from "axios";
+import { Star } from "react-feather";
 
 export default function RepairMatesPage() {
   const [data, setData] = useState([]);
@@ -19,9 +20,10 @@ export default function RepairMatesPage() {
 
   async function getData() {
     axios
-      .get("http://localhost:9000/api/service")
+      .get("http://localhost:9000/api/provider")
       .then(function (response) {
-        const temp = response.data.services;
+        const temp = response.data.providers;
+        console.log(temp);
         setData(temp);
       })
       .catch(function (error) {
@@ -39,18 +41,13 @@ export default function RepairMatesPage() {
         <Heading title={REPAIRMATE_TITLE} />
         <Row>
           {data && data.length
-            ? data.map((service, index) => {
+            ? data.map((provider, index) => {
                 return (
-                  <Col
-                    key={service.name + service.category}
-                    xs="6"
-                    md="4"
-                    lg="4"
-                  >
+                  <Col key={provider.user.name} xs="6" md="4" lg="4">
                     <Card style={{ width: "auto", marginBottom: "24px" }}>
                       <Card.Img
                         variant="top"
-                        src={service.image}
+                        src={provider.user.image}
                         style={{
                           width: "auto",
                           height: "200px",
@@ -59,8 +56,23 @@ export default function RepairMatesPage() {
                         }}
                       />
                       <Card.Body>
-                        <Card.Title>{service.name}</Card.Title>
-                        <Card.Text>{trimText(service.description)}</Card.Text>
+                        <Card.Title>{provider.user.name}</Card.Title>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            {Array.from({ length: provider.rating }).map(
+                              (_, index) => (
+                                <Star
+                                  key={provider._id + index}
+                                  fill="black"
+                                  size={18}
+                                />
+                              )
+                            )}
+                          </div>
+                          <h4 className="text-success">
+                            ${provider.hourly_rate}
+                          </h4>
+                        </div>
                         <Button
                           size="md"
                           variant="dark"

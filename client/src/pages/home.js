@@ -184,7 +184,7 @@ function HomeScreen() {
         <Row>
           {providers && providers.length
             ? providers.map((provider, index) => {
-                if (index < 12) {
+                if (index < 4) {
                   return (
                     <Col key={provider._id} xs="12" md="4" lg="3">
                       <Card style={{ width: "auto", marginBottom: "24px" }}>

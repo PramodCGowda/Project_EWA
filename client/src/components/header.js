@@ -17,6 +17,7 @@ function Header() {
   const signout = () => {
     localStorage.clear();
     setUserName("");
+    window.location.href = "/";
   };
 
   return (

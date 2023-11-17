@@ -5,7 +5,7 @@ function Footer() {
     <footer className="footer">
       <div className="container d-flex justify-content-center align-items-center">
         <p style={{ color: "#fff", marginBottom: "0px" }}>
-          EWA @ Illinois Institute if Technology. 2023
+          EWA @ Illinois Institute Of Technology. 2023
         </p>
         {/* <div className="row">
           <div className="footer-col">

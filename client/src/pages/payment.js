@@ -35,12 +35,17 @@ export default function PaymentPage() {
             <Card className="p-4">
               <h5>Review Task Description</h5>
               <Form>
-                <FloatingLabel
-                  controlId="floatingTextarea2"
-                  label="Edit your task detils."
-                >
-                  <Form.Control as="textarea" style={{ height: "200px" }} />
-                </FloatingLabel>
+                <Form.Control
+                  placeholder="Edit your task detils."
+                  value="I am interested in transforming my home into a smart home. After researching various options, I believe your expertise in smart home installation would be invaluable in achieving my vision.
+                  Help me with the below setup,
+                  Enhance home security with smart cameras and doorbell systems.
+                  Implement energy-efficient solutions such as smart thermostats and lighting controls.
+                  Create a seamless and intuitive home entertainment system.
+                  Integrate voice-controlled assistants for hands-free operation."
+                  as="textarea"
+                  style={{ height: "200px" }}
+                />
               </Form>
               <br />
               <br />
@@ -69,7 +74,7 @@ export default function PaymentPage() {
                 <div className="pic pt-3 text-center">
                   <img
                     style={{ borderRadius: "50%", overflow: "hidden" }}
-                    src={"https://ui-avatars.com/api/?name=Akash+Goindi"}
+                    src={"https://i.ibb.co/R9S47tb/user1.webp"}
                     className="img-fluid"
                     height={120}
                     width={120}
@@ -77,15 +82,15 @@ export default function PaymentPage() {
                   />
                 </div>
                 <Card.Body>
-                  <Card.Title>Akash Goindi</Card.Title>
-                  <Card.Text>Mover</Card.Text>
+                  <Card.Title>Emily Johnson</Card.Title>
+                  <Card.Text>Smart Home Installation</Card.Text>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      {[1, 2, 3].map((_, index) => (
+                      {[1, 2, 3, 4, 5].map((_, index) => (
                         <Star key={index} fill="gold" size={18} />
                       ))}
                     </div>
-                    <h4 className="text-success">$43/hr</h4>
+                    <h4 className="text-success">$52/hr</h4>
                   </div>
                   <Button variant="dark" size="md" className="w-100 mt-2">
                     Change RepairMate
@@ -99,7 +104,7 @@ export default function PaymentPage() {
               <Card.Body>
                 <Card.Text className="d-flex justify-content-between align-items-center mb-0">
                   <p>Hourly Rate</p>
-                  <p>$ 22.00</p>
+                  <p>$ 52.00</p>
                 </Card.Text>
                 <Card.Text className="d-flex justify-content-between align-items-center mb-0">
                   <p>Support Fee</p>
@@ -114,7 +119,7 @@ export default function PaymentPage() {
                     <b>Total Price: </b>
                   </p>
                   <p>
-                    <b className="text-success">$43.00</b>
+                    <b className="text-success">$74.00</b>
                   </p>
                 </Card.Text>
                 <Card.Text>

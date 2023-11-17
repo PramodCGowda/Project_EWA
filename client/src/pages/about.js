@@ -34,10 +34,11 @@ export default function AboutPage() {
             <div className="section-title">
               <h2>Team</h2>
               <p>
-                Magnam dolores commodi suscipit. Necessitatibus eius consequatur
-                ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam
-                quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea.
-                Quia fugiat sit in iste officiis commodi quidem hic quas.
+                Welcome to Repairmate, where convenience meets expertise! We
+                understand that when it comes to device repairs, Cleaning &
+                Maintainance you want a solution that is fast, reliable, and
+                hassle-free service. That's why we created the Repairmate App
+                your go-to platform for seamless service experience.
               </p>
             </div>
 

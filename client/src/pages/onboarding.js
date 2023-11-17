@@ -21,6 +21,7 @@ import Header from "../components/header";
 import axios from "axios";
 
 export default function OnboardingPage() {
+  const [userName, setUserName] = useState("");
   const [address, setAddress] = useState({
     street: "",
     city: "",
@@ -53,7 +54,6 @@ export default function OnboardingPage() {
   }, []);
 
   const saveProvider = (event) => {
-    console.log("Address", address);
     let userID = localStorage.getItem("userId");
     if (userID) {
       axios
@@ -64,10 +64,16 @@ export default function OnboardingPage() {
           aboutme,
         })
         .then(function (response) {
-          console.log(response);
-          let { email, name, token, _id } = response.data;
-          // window.location.href = "/";
-          alert("done");
+          //console.log(response);
+          let user = localStorage.getItem("user");
+          let userData = JSON.parse(user);
+          if (userData?.isSubscribed) {
+            userData.isSubscribed = "true";
+            localStorage.setItem("user", JSON.stringify(userData));
+          }
+          let usernew = localStorage.getItem("user");
+          //console.log(usernew);
+          window.location.href = "/";
         })
         .catch(function (error) {
           alert("Add Failed !");
