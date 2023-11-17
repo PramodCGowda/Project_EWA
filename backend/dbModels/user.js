@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    image: {
+      type: String,
+      required: false,
+    },
     isSubscribed: {
       type: Boolean,
       required: false,

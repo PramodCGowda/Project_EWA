@@ -7,7 +7,29 @@ const { Provider } = require("../dbModels/provider");
 
 router.get("/", async (req, res) => {
   try {
-    const allProviders = await Provider.find();
+    const allProviders = await Provider.find()
+      .populate("user", ["name", "image"])
+      .populate("service", "name");
+    console.log(allProviders);
+    return res.status(200).json({
+      message: "Successfully Fetched !",
+      providers: allProviders,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something Went Wrong !",
+      providers: null,
+    });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const serviceId = decodeURIComponent(req.params.id);
+    const allProviders = await Provider.findById(serviceId)
+      .populate("user")
+      .populate("service", "name");
+    console.log(allProviders);
     return res.status(200).json({
       message: "Successfully Fetched !",
       providers: allProviders,
@@ -24,6 +46,7 @@ router.get("/", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
+    console.log("========>", req.body);
     const newProvider = new Provider({ ...req.body });
     const addedProvider = await newProvider.save();
     return res.status(200).json({

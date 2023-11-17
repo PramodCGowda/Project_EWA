@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const ProviderSchema = new mongoose.Schema({
-  userID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  serviceID: {
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Service",
   },
@@ -13,7 +13,7 @@ const ProviderSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
+    required: false,
   },
   rating: {
     type: Number,
@@ -22,7 +22,7 @@ const ProviderSchema = new mongoose.Schema({
   },
   reviews: {
     type: String,
-    require: true,
+    require: false,
   },
   aboutme: {
     type: String,

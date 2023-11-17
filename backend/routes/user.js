@@ -17,8 +17,19 @@ router.use((req, res, next) => {
 // -----------------GET REQUESTS
 
 router.get("/", async (req, res) => {
-  const allUsers = await User.find();
-  return res.status(200).json(allUsers);
+  try {
+    const allUsers = await User.find();
+    if (!allUsers) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({
+      message: "Successfully Fetched !",
+      user: allUsers,
+    });
+  } catch (error) {
+    console.error("Error fetching user by name:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.get("/:name", async (req, res) => {
@@ -42,7 +53,7 @@ router.get("/:id", async (req, res) => {
   const userId = decodeURIComponent(req.params.id);
   console.log("userId", userId);
   try {
-    const user = await User.find(userId);
+    const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -154,6 +165,7 @@ router.post("/login", (req, res, next) => {
             {
               username: user[0].username,
               email: user[0].email,
+              name: user[0].name,
               _id: user[0]._id,
             },
             "pramodCG",
@@ -169,6 +181,7 @@ router.post("/login", (req, res, next) => {
                   token,
                   username: user[0].username,
                   email: user[0].email,
+                  name: user[0].name,
                   _id: user[0]._id,
                   connections: user[0].connections,
                 });

@@ -31,8 +31,8 @@ function Header() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/services">All Services</Nav.Link>
-            <Nav.Link href="/about">Click Me</Nav.Link>
             <Nav.Link href="/about">About Us</Nav.Link>
+            <Nav.Link href="/nearme">Find Nearby</Nav.Link>
           </Nav>
           <Nav>
             {userName ? (
@@ -40,7 +40,7 @@ function Header() {
                 title={`Welcome, ${userName}`}
                 id="navbarScrollingDropdown"
               >
-                <NavDropdown.Item href={"/userinfo/" + userId}>
+                <NavDropdown.Item href={"/profile_menu"}>
                   My Profile
                 </NavDropdown.Item>
                 <NavDropdown.Item onClick={signout}>Logout</NavDropdown.Item>

@@ -2,15 +2,27 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { loginUser } from "../controllers/auth";
+import axios from "axios";
 
 function LoginScreen({ changeScreen }) {
-  const [email, setEmail] = useState("anavatti@gmail.com");
+  const [email, setEmail] = useState("pcg18@gmail.com");
   const [password, setPassword] = useState("password");
 
   const handleLogin = (event) => {
     event.preventDefault();
     if (email && password) {
-      const res = loginUser(email, password);
+      axios
+        .post("http://localhost:9000/api/user/login", { email, password })
+        .then(function (response) {
+          let { email, name, token, _id } = response.data;
+          localStorage.setItem("username", name);
+          localStorage.setItem("token", token);
+          localStorage.setItem("userId", _id);
+          window.location.href = "/";
+        })
+        .catch(function (error) {
+          alert("Login Failed !");
+        });
     } else {
       alert("Please provide email and password !");
     }

@@ -11,6 +11,9 @@ import RepairMatesPage from "../pages/repairmates";
 import PaymentPage from "../pages/payment";
 import AboutPage from "../pages/about";
 import UserInfo from "../pages/userinfo";
+import ProfileMenuScreen from "../pages/profile/menu";
+import OnboardingPage from "../pages/onboarding";
+import MapWindow from "../pages/nearme";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomeScreen /> },
@@ -24,4 +27,7 @@ export const router = createBrowserRouter([
   { path: "/payment", element: <PaymentPage /> },
   { path: "/about", element: <AboutPage /> },
   { path: "/userinfo/:userId", element: <UserInfo /> },
+  { path: "/profile_menu", element: <ProfileMenuScreen /> },
+  { path: "/onboarding", element: <OnboardingPage /> },
+  { path: "/nearme", element: <MapWindow /> },
 ]);

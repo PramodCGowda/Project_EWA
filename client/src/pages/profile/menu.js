@@ -1,8 +1,8 @@
 import React from "react";
-
-import { Calendar, DollarSign, Layout, User } from "react-feather";
+import Layout from "../../components/layout";
+import { Calendar, DollarSign, User } from "react-feather";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import Heading from "../components/heading";
+import Heading from "../../components/heading";
 
 const options = [
   {

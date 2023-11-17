@@ -31,7 +31,6 @@ function HomeScreen() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
-        console.log("home page service", data);
         setData(response.data.services);
       })
       .catch(function (error) {
@@ -47,7 +46,6 @@ function HomeScreen() {
     axios
       .get("http://localhost:9000/api/provider")
       .then(function (response) {
-        console.log("providers", response.data.providers);
         setProviders(response.data.providers);
       })
       .catch(function (error) {
@@ -150,9 +148,32 @@ function HomeScreen() {
           </div>
         </Container>
       </div>
+      <div
+        style={{
+          backgroundColor: "rgba(0,0,0,0.9)",
+          padding: "24px 0px",
+        }}
+      >
+        <Container className="d-flex justify-content-between align-items-center">
+          <div style={{ color: "#fff" }}>
+            <h5 style={{ fontStyle: "italic" }}>
+              Become a REPAIRMATE and start earning your way.
+            </h5>
+          </div>
+          <Button
+            variant="outline-light"
+            className="ml-3"
+            onClick={() => {
+              window.location.href = "/onboarding";
+            }}
+          >
+            Register as Repairmate
+          </Button>
+        </Container>
+      </div>
       <Container>
         <Heading
-          title={"Recomended Providers For You"}
+          title={"Recomended RepairMates"}
           hasBtn={true}
           btnText={"View All"}
           btnFn={() => navigate("repairmates")}
@@ -160,28 +181,43 @@ function HomeScreen() {
         <Row>
           {providers && providers.length
             ? providers.map((provider, index) => {
-                if (index < 7) {
+                if (index < 12) {
                   return (
-                    <Col
-                      key={provider.name + provider.category}
-                      xs="12"
-                      md="4"
-                      lg="3"
-                    >
+                    <Col key={provider._id} xs="12" md="4" lg="3">
                       <Card style={{ width: "auto", marginBottom: "24px" }}>
-                        <Card.Img variant="top" src="/images/homecleaner.jpg" />
+                        <div class="pic pt-3 text-center">
+                          <img
+                            style={{ borderRadius: "50%", overflow: "hidden" }}
+                            src={
+                              provider.user.image
+                                ? provider.user.image
+                                : "https://ui-avatars.com/api/?name=" +
+                                  provider.user.name
+                            }
+                            class="img-fluid"
+                            height={200}
+                            width={200}
+                            alt=""
+                          />
+                        </div>
                         <Card.Body>
-                          <Card.Title>{provider.userID}</Card.Title>
-                          <Card.Text>{provider.serviceID}</Card.Text>
+                          <Card.Title>{provider.user.name}</Card.Title>
+                          <Card.Text>{provider.service.name}</Card.Text>
                           <div className="d-flex justify-content-between align-items-center">
-                            {Array.from({ length: provider.rating }).map(
-                              (_, index) => (
-                                <Card.Text key={index}>
-                                  <Star fill="black" size={18} />
-                                </Card.Text>
-                              )
-                            )}
-                            <h4 className="text-success">$92</h4>
+                            <div>
+                              {Array.from({ length: provider.rating }).map(
+                                (_, index) => (
+                                  <Star
+                                    key={provider._id + index}
+                                    fill="black"
+                                    size={18}
+                                  />
+                                )
+                              )}
+                            </div>
+                            <h4 className="text-success">
+                              ${provider.hourly_rate}
+                            </h4>
                           </div>
                           <Button
                             size="md"

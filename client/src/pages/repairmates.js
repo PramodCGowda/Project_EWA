@@ -48,7 +48,7 @@ export default function RepairMatesPage() {
                     lg="4"
                   >
                     <Card style={{ width: "auto", marginBottom: "24px" }}>
-                      <Card.Img variant="top" src="/images/homecleaner.jpg" />
+                      <Card.Img variant="top" src={service.image} />
                       <Card.Body>
                         <Card.Title>{service.name}</Card.Title>
                         <Card.Text>{trimText(service.description)}</Card.Text>

@@ -58,11 +58,7 @@ export default function AboutPage() {
               >
                 <div class="member d-flex align-items-start">
                   <div class="pic">
-                    <img
-                      src="https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
-                      class="img-fluid"
-                      alt=""
-                    />
+                    <img src="/images/abhishek.png" class="img-fluid" alt="" />
                   </div>
                   <div class="member-info">
                     <h4>Abhishek</h4>
@@ -87,11 +83,7 @@ export default function AboutPage() {
               >
                 <div class="member d-flex align-items-start">
                   <div class="pic">
-                    <img
-                      src="https://images.unsplash.com/photo-1557862921-37829c790f19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
-                      class="img-fluid"
-                      alt=""
-                    />
+                    <img src="/images/payal.png" class="img-fluid" alt="" />
                   </div>
                   <div class="member-info">
                     <h4>Payal</h4>
