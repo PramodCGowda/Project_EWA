@@ -14,10 +14,11 @@ function LoginScreen({ changeScreen }) {
       axios
         .post("http://localhost:9000/api/user/login", { email, password })
         .then(function (response) {
-          let { email, name, token, _id } = response.data;
-          localStorage.setItem("username", name);
+          console.log(response);
+          let { user, token } = response.data;
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("userId", user.id);
           localStorage.setItem("token", token);
-          localStorage.setItem("userId", _id);
           window.location.href = "/";
         })
         .catch(function (error) {

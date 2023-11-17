@@ -55,54 +55,43 @@ const MapWindow = () => {
 
   return (
     <Layout>
-      <Container>
-        <div style={{ display: "flex", width: "100%" }}>
-          <div
-            style={{
-              width: "25%",
-              height: "100%",
-              textAlign: "center",
-              marginTop: "20px",
-            }}
+      <div>
+        <div className="mt-4" style={{ textAlign: "center" }}>
+          <Button
+            variant="dark"
+            disabled={isLoading}
+            onClick={!isLoading ? handleClick : null}
+            style={{}}
           >
-            {!showMap && (
-              <Button
-                variant="primary"
-                disabled={isLoading}
-                onClick={!isLoading ? handleClick : null}
-                style={{
-                  marginTop: "auto",
-                  marginBottom: "auto",
-                  alignSelf: "center",
-                }}
-              >
-                {isLoading ? "Loading…" : "Click to get the current location"}
-              </Button>
-            )}
-          </div>
-          {showMap && (
-            <div style={{ height: "700px", width: "75%", marginTop: "20px" }}>
-              <GoogleMapReact
-                bootstrapURLKeys={{
-                  key: "AIzaSyC-n_YHaxbxsghNiqSMKoLxMvdEDVpm6kg",
-                }}
-                defaultCenter={defaultCenter}
-                defaultZoom={defaultZoom}
-                onGoogleApiLoaded={({ map }) => setMap(map)}
-              >
-                {places.map((place) => (
-                  <Marker
-                    key={place.zipcode}
-                    lat={place.lat}
-                    lng={place.lng}
-                    text={place.zipcode}
-                  />
-                ))}
-              </GoogleMapReact>
-            </div>
-          )}
+            {isLoading ? "Loading…" : "Click to get the current location"}
+          </Button>
         </div>
-      </Container>
+        {showMap ? (
+          <div style={{ height: "600px", width: "100%", marginTop: "20px" }}>
+            <GoogleMapReact
+              bootstrapURLKeys={{
+                key: "AIzaSyC-n_YHaxbxsghNiqSMKoLxMvdEDVpm6kg",
+              }}
+              defaultCenter={defaultCenter}
+              defaultZoom={defaultZoom}
+              onGoogleApiLoaded={({ map }) => setMap(map)}
+            >
+              {places.map((place) => (
+                <Marker
+                  key={place.zipcode}
+                  lat={place.lat}
+                  lng={place.lng}
+                  text={place.zipcode}
+                />
+              ))}
+            </GoogleMapReact>
+          </div>
+        ) : (
+          <div style={{ textAlign: "center", padding: " 100px 0px" }}>
+            <p className="text-secondary">Click to get the current location</p>
+          </div>
+        )}
+      </div>
     </Layout>
   );
 };

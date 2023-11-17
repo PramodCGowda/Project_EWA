@@ -205,8 +205,12 @@ export default function TaskDataPage() {
             {providers.map((pro) => {
               return (
                 <Col xs="12" md="4" lg="3" className="mb-2">
-                  <Card className="bg-dark text-white">
+                  <Card
+                    className="bg-dark text-white"
+                    style={provider == pro ? { border: "5px solid green" } : {}}
+                  >
                     <Card.Img
+                      style={{ height: "300px" }}
                       src={
                         pro.user.image
                           ? pro.user.image
@@ -214,10 +218,10 @@ export default function TaskDataPage() {
                       }
                       alt="Card image"
                     />
-                    <Card.ImgOverlay style={{ position: "relative" }}>
+                    <Card.ImgOverlay>
                       <CardBody
                         style={{
-                          backgroundColor: "rgba(255,255,255,0.3)",
+                          backgroundColor: "rgba(0,0,0,0.3)",
                           position: "absolute",
                           width: "100%",
                           bottom: 0,
@@ -225,7 +229,9 @@ export default function TaskDataPage() {
                         }}
                       >
                         <Card.Title>{pro.user.name}</Card.Title>
-                        <Card.Text>{pro.service.name}</Card.Text>
+                        <Card.Text className="mb-0">
+                          {pro.service.name}
+                        </Card.Text>
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
                             {Array.from({ length: pro.rating }).map(
@@ -238,7 +244,9 @@ export default function TaskDataPage() {
                               )
                             )}
                           </div>
-                          <h4 className="text-success">${pro.hourly_rate}</h4>
+                          <h4 className="text-light">
+                            <b>${pro.hourly_rate}</b>
+                          </h4>
                         </div>
 
                         <ButtonGroup

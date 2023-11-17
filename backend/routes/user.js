@@ -149,11 +149,11 @@ router.post("/signup", (req, res) => {
 //Login api
 router.post("/login", (req, res, next) => {
   //Check if user exists with that email
-  User.find({ email: req.body.email })
+  User.findOne({ email: req.body.email })
     .exec()
     .then((user) => {
       //compare stores encrypted password
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+      bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (err) {
           res.status(401).json({
             message: "Authentication Failed",
@@ -163,10 +163,10 @@ router.post("/login", (req, res, next) => {
           // create a token with following properties and a key
           jwt.sign(
             {
-              username: user[0].username,
-              email: user[0].email,
-              name: user[0].name,
-              _id: user[0]._id,
+              username: user.username,
+              email: user.email,
+              name: user.name,
+              _id: user._id,
             },
             "pramodCG",
             (err, token) => {
@@ -175,15 +175,20 @@ router.post("/login", (req, res, next) => {
                   message: "Authentication Failed",
                 });
               } else {
+                let userObj = {
+                  id: user._id,
+                  name: user.name,
+                  email: user.email,
+                  isSubscribed: user.isSubscribed,
+                  createdAt: user.createdAt,
+                  updatedAt: user.updatedAt,
+                  image: user.image,
+                };
                 //send response
                 res.status(200).json({
                   message: "Autherization Successful",
                   token,
-                  username: user[0].username,
-                  email: user[0].email,
-                  name: user[0].name,
-                  _id: user[0]._id,
-                  connections: user[0].connections,
+                  user: userObj,
                 });
               }
             }

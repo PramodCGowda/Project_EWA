@@ -22,7 +22,7 @@ export default function RepairMatesPage() {
       .get("http://localhost:9000/api/service")
       .then(function (response) {
         const temp = response.data.services;
-        setData([...temp, ...temp, ...temp]);
+        setData(temp);
       })
       .catch(function (error) {
         console.log(error);
@@ -48,7 +48,16 @@ export default function RepairMatesPage() {
                     lg="4"
                   >
                     <Card style={{ width: "auto", marginBottom: "24px" }}>
-                      <Card.Img variant="top" src={service.image} />
+                      <Card.Img
+                        variant="top"
+                        src={service.image}
+                        style={{
+                          width: "auto",
+                          height: "200px",
+                          objectFit: "cover",
+                          objectPosition: "center",
+                        }}
+                      />
                       <Card.Body>
                         <Card.Title>{service.name}</Card.Title>
                         <Card.Text>{trimText(service.description)}</Card.Text>

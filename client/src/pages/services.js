@@ -48,8 +48,22 @@ export default function ServicesPage() {
                     md="4"
                     lg="3"
                   >
-                    <Card style={{ width: "auto", marginBottom: "24px" }}>
-                      <Card.Img variant="top" src={service.image} />
+                    <Card
+                      style={{
+                        width: "auto",
+                        marginBottom: "24px",
+                      }}
+                    >
+                      <Card.Img
+                        variant="top"
+                        src={service.image}
+                        style={{
+                          width: "auto",
+                          height: "200px",
+                          objectFit: "cover",
+                          objectPosition: "center",
+                        }}
+                      />
                       <Card.Body>
                         <Card.Title>{service.name}</Card.Title>
                         <Card.Text>{trimText(service.description)}</Card.Text>

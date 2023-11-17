@@ -148,29 +148,32 @@ function HomeScreen() {
           </div>
         </Container>
       </div>
-      <div
-        style={{
-          backgroundColor: "rgba(0,0,0,0.9)",
-          padding: "24px 0px",
-        }}
-      >
-        <Container className="d-flex justify-content-between align-items-center">
-          <div style={{ color: "#fff" }}>
-            <h5 style={{ fontStyle: "italic" }}>
-              Become a REPAIRMATE and start earning your way.
-            </h5>
-          </div>
-          <Button
-            variant="outline-light"
-            className="ml-3"
-            onClick={() => {
-              window.location.href = "/onboarding";
-            }}
-          >
-            Register as Repairmate
-          </Button>
-        </Container>
-      </div>
+      {true ? (
+        <div
+          style={{
+            backgroundColor: "rgba(0,0,0,0.9)",
+            padding: "24px 0px",
+          }}
+        >
+          <Container className="d-flex justify-content-between align-items-center">
+            <div style={{ color: "#fff" }}>
+              <h5 style={{ fontStyle: "italic" }}>
+                Become a REPAIRMATE and start earning your way.
+              </h5>
+            </div>
+            <Button
+              variant="outline-light"
+              className="ml-3"
+              onClick={() => {
+                window.location.href = "/onboarding";
+              }}
+            >
+              Register as Repairmate
+            </Button>
+          </Container>
+        </div>
+      ) : null}
+
       <Container>
         <Heading
           title={"Recomended RepairMates"}
@@ -185,16 +188,23 @@ function HomeScreen() {
                   return (
                     <Col key={provider._id} xs="12" md="4" lg="3">
                       <Card style={{ width: "auto", marginBottom: "24px" }}>
-                        <div class="pic pt-3 text-center">
+                        <div className="pic pt-3 text-center">
                           <img
-                            style={{ borderRadius: "50%", overflow: "hidden" }}
+                            style={{
+                              borderRadius: "50%",
+                              overflow: "hidden",
+                              height: "160px",
+                              width: "160px",
+                              overflow: "hidden",
+                              objectFit: "cover",
+                            }}
                             src={
                               provider.user.image
                                 ? provider.user.image
                                 : "https://ui-avatars.com/api/?name=" +
                                   provider.user.name
                             }
-                            class="img-fluid"
+                            className="img-fluid"
                             height={200}
                             width={200}
                             alt=""

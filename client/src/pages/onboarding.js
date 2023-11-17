@@ -21,12 +21,12 @@ import Header from "../components/header";
 import axios from "axios";
 
 export default function OnboardingPage() {
-  // const [address, setAddress] = useState({
-  //   street: "",
-  //   city: "",
-  //   state: "",
-  //   zipcode: "",
-  // });
+  const [address, setAddress] = useState({
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+  });
   const [zipcode, setZipCode] = useState("");
   const [service, setService] = useState("");
   const [hourly_rate, setRate] = useState("");
@@ -53,24 +53,31 @@ export default function OnboardingPage() {
   }, []);
 
   const saveProvider = (event) => {
-    let user = localStorage.getItem("userID");
-    axios
-      .post("http://localhost:9000/api/provider/add", {
-        user,
-        service,
-        hourly_rate,
-        aboutme,
-      })
-      .then(function (response) {
-        console.log(response);
-        let { email, name, token, _id } = response.data;
-        // window.location.href = "/";
-        alert("done");
-      })
-      .catch(function (error) {
-        alert("Add Failed !");
-      });
+    console.log("Address", address);
+    let userID = localStorage.getItem("userId");
+    if (userID) {
+      axios
+        .post("http://localhost:9000/api/provider/add", {
+          user: userID,
+          service,
+          hourly_rate,
+          aboutme,
+        })
+        .then(function (response) {
+          console.log(response);
+          let { email, name, token, _id } = response.data;
+          // window.location.href = "/";
+          alert("done");
+        })
+        .catch(function (error) {
+          alert("Add Failed !");
+        });
+    }
   };
+
+  function handleAddressChange(val, key) {
+    setAddress({ ...address, [key]: val });
+  }
 
   return (
     <Layout>
@@ -83,8 +90,8 @@ export default function OnboardingPage() {
             <Form.Label>Address</Form.Label>
             <Form.Control
               placeholder="1234 Main St"
-              // value={address.street}
-              // onChange={(e) => handleAddressChange(e)}
+              value={address.street}
+              onChange={(e) => handleAddressChange(e.target.value, "street")}
             />
           </Form.Group>
 
@@ -92,8 +99,8 @@ export default function OnboardingPage() {
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
               <Form.Control
-              // value={address.city}
-              // onClick={(e) => handleAddressChange(e)}
+                value={address.city}
+                onChange={(e) => handleAddressChange(e.target.value, "city")}
               />
             </Form.Group>
 
@@ -101,10 +108,12 @@ export default function OnboardingPage() {
               <Form.Label>State</Form.Label>
               <Form.Select
                 defaultValue="Choose..."
-                // value={address.state}
-                // onChange={(e) => handleAddressChange(e)}
+                value={address.state}
+                onChange={(e) => handleAddressChange(e.target.value, "state")}
               >
-                <option disabled>Choose...</option>
+                <option value="" disabled>
+                  Choose...
+                </option>
                 {Object.keys(STATES).map((code) => {
                   return (
                     <option key={code} value={code}>
@@ -118,8 +127,8 @@ export default function OnboardingPage() {
             <Form.Group as={Col} controlId="formGridZip">
               <Form.Label>Zip</Form.Label>
               <Form.Control
-                value={zipcode}
-                onChange={(e) => setZipCode(e.target.value)}
+                value={address.zipcode}
+                onChange={(e) => handleAddressChange(e.target.value, "zipcode")}
               />
             </Form.Group>
           </Row>

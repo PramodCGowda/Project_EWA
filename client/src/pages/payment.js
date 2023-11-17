@@ -66,11 +66,11 @@ export default function PaymentPage() {
             <Card className="p-4">
               <h5>RepairMate Details</h5>
               <Card style={{ width: "auto", marginBottom: "24px" }}>
-                <div class="pic pt-3 text-center">
+                <div className="pic pt-3 text-center">
                   <img
                     style={{ borderRadius: "50%", overflow: "hidden" }}
                     src={"https://ui-avatars.com/api/?name=Akash+Goindi"}
-                    class="img-fluid"
+                    className="img-fluid"
                     height={120}
                     width={120}
                     alt=""

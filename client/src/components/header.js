@@ -5,14 +5,12 @@ import { useEffect, useState } from "react";
 
 function Header() {
   const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    let id = localStorage.getItem("userId");
-    if (id) {
-      let name = localStorage.getItem("username");
-      setUserName(name);
-      setUserId(id);
+    let user = localStorage.getItem("user");
+    let userData = JSON.parse(user);
+    if (userData?.name) {
+      setUserName(userData.name);
     }
   }, []);
 
