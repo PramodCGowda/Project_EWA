@@ -9,8 +9,6 @@ const users = require("./routes/user");
 const providers = require("./routes/provider");
 const categories = require("./routes/category");
 
-// // create application/json parser
-// var jsonParser = bodyParser.json()
 app.use(cors());
 
 app.use(express.json());

@@ -5,7 +5,7 @@ import { loginUser } from "../controllers/auth";
 import axios from "axios";
 
 function LoginScreen({ changeScreen }) {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("hb@gmail.com");
   const [password, setPassword] = useState("");
 
   const handleLogin = (event) => {

@@ -23,12 +23,20 @@ import axios from "axios";
 export default function TaskDataPage() {
   const params = useParams();
   const [providers, setProviders] = useState([]);
-
   const [provider, setProvider] = useState(0);
-
-  const handleFindRepairMate = (event) => {
-    window.location.href = "/repairmates";
-  };
+  const [details, SetDetails] = useState({
+    demand: "",
+    vehicleNeeded: "",
+    aptDate: "",
+    aptTime: "",
+  });
+  const [address, setAddress] = useState({
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+  });
+  const [task, setTask] = useState("");
 
   useEffect(() => {
     console.log("param in task page", params.categoryId);
@@ -49,6 +57,26 @@ export default function TaskDataPage() {
   useEffect(() => {
     getProviders();
   }, []);
+
+  function handleAddressChange(val, key) {
+    setAddress({ ...address, [key]: val });
+  }
+  function handleDetails(val, key) {
+    SetDetails({ ...details, [key]: val });
+  }
+
+  const handleConfirmAppointment = () => {
+    localStorage.setItem(
+      "order",
+      JSON.stringify({
+        details: details,
+        address: address,
+        task: task,
+        provider: provider,
+      })
+    );
+    window.location.href = "/payment";
+  };
 
   return (
     <Layout>
@@ -72,7 +100,11 @@ export default function TaskDataPage() {
             <Row>
               <Form.Group as={Col} controlId="formGridTask">
                 <Form.Label>How demanding is your task?</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue="Choose..."
+                  value={details.demand}
+                  onChange={(e) => handleDetails(e.target.value, "demand")}
+                >
                   <option>Choose...</option>
                   <option value={"light"}>Less than 1hr</option>
                   <option value={"medium"}>Around 2-3 hrs</option>
@@ -83,7 +115,13 @@ export default function TaskDataPage() {
 
               <Form.Group as={Col} controlId="formGridTask">
                 <Form.Label>Is Veichle Needed?</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue="Choose..."
+                  value={details.vehicleNeeded}
+                  onChange={(e) =>
+                    handleDetails(e.target.value, "vehicleNeeded")
+                  }
+                >
                   <option>Choose...</option>
                   <option value={"no"}>No</option>
                   <option value={"light"}>Yes (Large)</option>
@@ -100,6 +138,8 @@ export default function TaskDataPage() {
                   placeholder="Username"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
+                  value={details.aptDate}
+                  onChange={(e) => handleDetails(e.target.value, "aptDate")}
                 />
               </Form.Group>
 
@@ -110,6 +150,8 @@ export default function TaskDataPage() {
                   placeholder="Username"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
+                  value={details.aptTime}
+                  onChange={(e) => handleDetails(e.target.value, "aptTime")}
                 />
               </Form.Group>
             </Row>
@@ -132,18 +174,29 @@ export default function TaskDataPage() {
           <Form>
             <Form.Group className="mb-3" controlId="formGridAddress1">
               <Form.Label>Address</Form.Label>
-              <Form.Control placeholder="1234 Main St" />
+              <Form.Control
+                placeholder="1234 Main St"
+                value={address.street}
+                onChange={(e) => handleAddressChange(e.target.value, "street")}
+              />
             </Form.Group>
 
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridCity">
                 <Form.Label>City</Form.Label>
-                <Form.Control />
+                <Form.Control
+                  value={address.city}
+                  onChange={(e) => handleAddressChange(e.target.value, "city")}
+                />
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridState">
                 <Form.Label>State</Form.Label>
-                <Form.Select defaultValue="Choose...">
+                <Form.Select
+                  defaultValue="Choose..."
+                  value={address.state}
+                  onChange={(e) => handleAddressChange(e.target.value, "state")}
+                >
                   <option>Choose...</option>
                   {Object.keys(STATES).map((code) => {
                     return (
@@ -157,7 +210,12 @@ export default function TaskDataPage() {
 
               <Form.Group as={Col} controlId="formGridZip">
                 <Form.Label>Zip</Form.Label>
-                <Form.Control />
+                <Form.Control
+                  value={address.zipcode}
+                  onChange={(e) =>
+                    handleAddressChange(e.target.value, "zipcode")
+                  }
+                />
               </Form.Group>
             </Row>
           </Form>
@@ -182,6 +240,8 @@ export default function TaskDataPage() {
               placeholder="Start the conversation and tell your Tasker what you need done. This helps us show you only qualified and available Taskers for the job."
               as="textarea"
               style={{ height: "200px" }}
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
             />
             {/* </FloatingLabel> */}
           </Form>
@@ -199,7 +259,7 @@ export default function TaskDataPage() {
               padding: "10px",
             }}
           >
-            <p className="stepText">Step 4: Choose yout RapairMate.</p>
+            <p className="stepText">Step 4: Choose your RapairMate.</p>
           </div>
           <Row>
             {providers.map((pro, index) => {
@@ -287,7 +347,7 @@ export default function TaskDataPage() {
         </div>
 
         <Button
-          onClick={() => (window.location.href = "/payment")}
+          onClick={() => handleConfirmAppointment()}
           variant="success"
           className="w-100 mt-4 mb-5"
         >

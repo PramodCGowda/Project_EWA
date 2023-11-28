@@ -6,11 +6,19 @@ const ServiceRequestSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Service",
   },
-  requestDate: {
+  providerID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Provider",
+  },
+  generalDetails: {
     type: Date,
     require: true,
   },
-  status: {
+  address: {
+    type: String,
+    require: true,
+  },
+  task: {
     type: String,
     require: true,
   },

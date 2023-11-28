@@ -74,8 +74,6 @@ router.post("/", async (req, res) => {
   return res.status(201).json(addedUser);
 });
 
-module.exports = router;
-
 router.post("/add", async (req, res) => {
   try {
     const newUser = new User({ ...req.body });
@@ -90,6 +88,28 @@ router.post("/add", async (req, res) => {
       message: "Unable to add service at the moment !",
       user: null,
     });
+  }
+});
+
+// -----------------PUT REQUESTS
+router.put("/", async (req, res) => {
+  try {
+    const { userId, role } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { role: role } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -179,7 +199,7 @@ router.post("/login", (req, res, next) => {
                   id: user._id,
                   name: user.name,
                   email: user.email,
-                  isSubscribed: user.isSubscribed,
+                  role: user.role,
                   createdAt: user.createdAt,
                   updatedAt: user.updatedAt,
                   image: user.image,

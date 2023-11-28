@@ -22,10 +22,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    isSubscribed: {
-      type: Boolean,
+    role: {
+      type: String,
       required: false,
-      default: false,
+      default: "customer",
     },
   },
   { timestamps: true }

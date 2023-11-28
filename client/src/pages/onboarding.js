@@ -1,34 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Card,
-  Button,
-  FloatingLabel,
-  ButtonGroup,
-  InputGroup,
-  CardBody,
-} from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Layout from "../components/layout";
 import Heading from "../components/heading";
-import { TASK_TITLE } from "../mappings";
 import { STATES } from "../static/states";
-import { Star } from "react-feather";
-import Header from "../components/header";
 import axios from "axios";
+import { roles } from "../mappings";
 
 export default function OnboardingPage() {
-  const [userName, setUserName] = useState("");
   const [address, setAddress] = useState({
     street: "",
     city: "",
     state: "",
     zipcode: "",
   });
-  const [zipcode, setZipCode] = useState("");
   const [service, setService] = useState("");
   const [hourly_rate, setRate] = useState("");
   const [aboutme, setAboutMe] = useState("");
@@ -64,15 +48,23 @@ export default function OnboardingPage() {
           aboutme,
         })
         .then(function (response) {
-          let user = localStorage.getItem("user");
-          let userData = JSON.parse(user);
-          if (userData) {
-            userData.isSubscribed = true;
-            localStorage.setItem("user", JSON.stringify(userData));
-          }
-          let usernew = localStorage.getItem("user");
-          console.log(usernew);
-          window.location.href = "/";
+          axios
+            .put("http://localhost:9000/api/user", {
+              userId: userID,
+              role: roles.PROVIDER,
+            })
+            .then(function (response) {
+              let user = localStorage.getItem("user");
+              let userData = JSON.parse(user);
+              if (userData) {
+                console.log(response);
+                userData.role = response.data.role;
+                localStorage.setItem("user", JSON.stringify(userData));
+              }
+              let usernew = localStorage.getItem("user");
+              console.log(usernew);
+              window.location.href = "/";
+            });
         })
         .catch(function (error) {
           alert("Add Failed !");

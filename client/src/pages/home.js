@@ -13,6 +13,7 @@ import Layout from "../components/layout";
 import axios from "axios";
 import Heading from "../components/heading";
 import { ArrowUpRight, Star, Twitter } from "react-feather";
+import { roles } from "../mappings/index";
 
 function HomeScreen() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function HomeScreen() {
   const [data, setData] = useState([]);
   const [providers, setProviders] = useState([]);
   const [categoryId, setCategoryId] = useState("1");
-  const [isSubscribed, setIsSubscribed] = useState("");
+  const [role, setRole] = useState("");
 
   function trimText(text) {
     if (text.length < 100) return text;
@@ -46,8 +47,8 @@ function HomeScreen() {
   async function getProviders() {
     let user = localStorage.getItem("user");
     let userData = JSON.parse(user);
-    if (userData?.isSubscribed) {
-      setIsSubscribed(userData.isSubscribed);
+    if (userData?.role) {
+      setRole(userData.role);
     }
     axios
       .get("http://localhost:9000/api/provider")
@@ -89,7 +90,10 @@ function HomeScreen() {
         .get("http://localhost:9000/api/service")
         .then((response) => {
           let data = response?.data?.services || [];
-          setSearchResults(data);
+          const filteredResults = data.filter((service) =>
+            service.name.includes(searchValue)
+          );
+          setSearchResults(filteredResults);
         })
         .catch((err) => {
           alert("Error !!!");
@@ -134,7 +138,6 @@ function HomeScreen() {
                 }}
               >
                 {searchResults.map((result) => {
-                  console.log("result", result);
                   return (
                     <div
                       onClick={() =>
@@ -154,7 +157,7 @@ function HomeScreen() {
           </div>
         </Container>
       </div>
-      {!isSubscribed ? (
+      {role === roles.CUSTOMER || role === roles.ADMIN ? (
         <div
           style={{
             backgroundColor: "rgba(0,0,0,0.9)",
@@ -171,7 +174,9 @@ function HomeScreen() {
               variant="outline-light"
               className="ml-3"
               onClick={() => {
-                window.location.href = "/onboarding";
+                localStorage.getItem("user")
+                  ? (window.location.href = "/onboarding")
+                  : (window.location.href = "/auth");
               }}
             >
               Register as Repairmate

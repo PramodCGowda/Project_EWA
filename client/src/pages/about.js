@@ -12,7 +12,7 @@ export default function AboutPage() {
 
   const data = [
     {
-      name: "Pramoda Chandru",
+      name: "Pramod",
       github: "#",
       linkedin: "#",
       img: "/images/pramod.png",
