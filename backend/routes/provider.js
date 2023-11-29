@@ -10,7 +10,6 @@ router.get("/", async (req, res) => {
     const allProviders = await Provider.find()
       .populate("user", ["name", "image"])
       .populate("service", ["name", "image", "price"]);
-    console.log(allProviders);
     return res.status(200).json({
       message: "Successfully Fetched !",
       providers: allProviders,

@@ -1,6 +1,7 @@
 @import './task.css';
 @import './products.css';
 @import './footer.css';
+@import './profile.css';
 
 body {
     margin: 0;

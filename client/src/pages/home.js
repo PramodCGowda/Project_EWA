@@ -64,6 +64,26 @@ function HomeScreen() {
     getProviders();
   }, []);
 
+  // async function getOrders() {
+  //   let ordersId = localStorage.getItem("orderIds");
+  //   let userData = JSON.parse(user);
+  //   if (userData?.role) {
+  //     setRole(userData.role);
+  //   }
+  //   axios
+  //     .get("http://localhost:9000/api/order")
+  //     .then(function (response) {
+  //       setProviders(response.data.orders);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // }
+
+  // useEffect(() => {
+  //   getOrders();
+  // }, []);
+
   const handleSearchChange = (val) => {
     if (val === "") setSearchResults([]);
     setSearchValue(val);

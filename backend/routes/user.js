@@ -32,34 +32,36 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:name", async (req, res) => {
-  const userName = decodeURIComponent(req.params.name);
+// router.get("/:name", async (req, res) => {
+//   const userName = decodeURIComponent(req.params.name);
+//   console.log("test", req.params.id);
+//   try {
+//     const user = await User.findOne({ name: userName });
 
-  try {
-    const user = await User.findOne({ name: userName });
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    return res.status(200).json(user);
-  } catch (error) {
-    console.error("Error fetching user by name:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+//     return res.status(200).json(user);
+//   } catch (error) {
+//     console.error("Error fetching user by name:", error);
+//     return res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 router.get("/:id", async (req, res) => {
-  const userId = decodeURIComponent(req.params.id);
-  console.log("userId", userId);
+  console.log(req.params.id);
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    return res.status(200).json(user);
+    return res.status(200).json({
+      message: "Successfully Fetched !",
+      user: user,
+    });
   } catch (error) {
     console.error("Error fetching user by name:", error);
     return res.status(500).json({ error: "Internal Server Error" });

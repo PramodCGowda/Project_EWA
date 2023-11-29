@@ -14,6 +14,9 @@ import UserInfo from "../pages/userinfo";
 import ProfileMenuScreen from "../pages/profile/menu";
 import OnboardingPage from "../pages/onboarding";
 import MapWindow from "../pages/nearme";
+import MyProfilePage from "../pages/profile/myprofile";
+import MyAppointmentPage from "../pages/profile/appointments";
+import MyOrdersPage from "../pages/profile/myorders";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomeScreen /> },
@@ -30,4 +33,7 @@ export const router = createBrowserRouter([
   { path: "/profile_menu", element: <ProfileMenuScreen /> },
   { path: "/onboarding", element: <OnboardingPage /> },
   { path: "/nearme", element: <MapWindow /> },
+  { path: "/myprofile", element: <MyProfilePage /> },
+  { path: "/appointments", element: <MyAppointmentPage /> },
+  { path: "/myorders", element: <MyOrdersPage /> },
 ]);

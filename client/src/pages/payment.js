@@ -32,7 +32,7 @@ export default function PaymentPage() {
   async function handleMakePayment() {
     axios
       .post("http://localhost:9000/api/order", {
-        userID: order.provider.user._id,
+        userID: localStorage.getItem("userId"),
         serviceID: order.provider.service._id,
         providerID: order.provider._id,
         address: order.address,
@@ -109,6 +109,7 @@ export default function PaymentPage() {
                   <h5>Review Task Description</h5>
                   <Form>
                     <Form.Control
+                      disabled
                       placeholder="Edit your task detils."
                       value={order.task}
                       as="textarea"

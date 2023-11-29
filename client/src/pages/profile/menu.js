@@ -1,56 +1,97 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout";
 import { Calendar, DollarSign, User } from "react-feather";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import Heading from "../../components/heading";
-
-const options = [
-  {
-    name: "My Profile",
-    icon: <User size="40" />,
-    description: "Manage your membership, view benefits, and payment settings",
-    goto: "/",
-  },
-  {
-    name: "My Appointments",
-    icon: <Calendar size="40" />,
-    description: "Manage your membership, view benefits, and payment settings",
-    goto: "/",
-  },
-  {
-    name: "My Payments",
-    icon: <DollarSign size="40" />,
-    description: "Manage your membership, view benefits, and payment settings",
-    goto: "/",
-  },
-  // {
-  //   name: "My Profile",
-  //   icon: <User size="40" />,
-  //   description: "Manage your membership, view benefits, and payment settings",
-  //   goto: "/",
-  // },
-  // {
-  //   name: "My Appointments",
-  //   icon: <Calendar size="40" />,
-  //   description: "Manage your membership, view benefits, and payment settings",
-  //   goto: "/",
-  // },
-  // {
-  //   name: "My Payments",
-  //   icon: <DollarSign size="40" />,
-  //   description: "Manage your membership, view benefits, and payment settings",
-  //   goto: "/",
-  // },
-];
+import { roles } from "../../mappings/index";
 
 export default function ProfileMenuScreen() {
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    let user = localStorage.getItem("user");
+    let userData = JSON.parse(user);
+    if (userData?.name) {
+      setRole(userData.role);
+    }
+  }, []);
+
+  const options = {
+    [roles.PROVIDER]: [
+      {
+        name: "My Profile",
+        icon: <User size="40" />,
+        description: "Manage your Profile",
+        goto: "/myprofile",
+      },
+      {
+        name: "My Appointments",
+        icon: <Calendar size="40" />,
+        description: "Manage your Appointments",
+        goto: "/appointments",
+      },
+      {
+        name: "My View",
+        icon: <DollarSign size="40" />,
+        description: "Data Analytics",
+        goto: "/",
+      },
+    ],
+    [roles.CUSTOMER]: [
+      {
+        name: "My Profile",
+        icon: <User size="40" />,
+        description: "Manage your Profile",
+        goto: "/myprofile",
+      },
+      {
+        name: "My Orders",
+        icon: <Calendar size="40" />,
+        description: "Manage your Orders",
+        goto: "/myorders",
+      },
+      {
+        name: "My View",
+        icon: <DollarSign size="40" />,
+        description: "Data Analytics",
+        goto: "/",
+      },
+    ],
+    [roles.ADMIN]: [
+      {
+        name: "My Profile",
+        icon: <User size="40" />,
+        description: "Manage your Profile",
+        goto: "/myprofile",
+      },
+      {
+        name: "Orders",
+        icon: <Calendar size="40" />,
+        description: "Manage All Orders",
+        goto: "/",
+      },
+      {
+        name: "Services",
+        icon: <Calendar size="40" />,
+        description: "Manage All Services",
+        goto: "/",
+      },
+      {
+        name: "My View",
+        icon: <DollarSign size="40" />,
+        description: "Data Analytics",
+        goto: "/",
+      },
+    ],
+  };
+
   return (
     <Layout>
       <Container>
         <Heading title={"Profile Options"} />
         <Row className="mt-2">
-          {options.map((obj) => {
-            return (
+          {options[role] &&
+            options[role].map((obj) => (
               <Col key={obj.name} lg="3" xs="6" className="mb-3">
                 <Card onClick={() => (window.location.href = obj.goto)}>
                   <div className="text-center p-5">{obj.icon}</div>
@@ -60,8 +101,7 @@ export default function ProfileMenuScreen() {
                   </Card.Body>
                 </Card>
               </Col>
-            );
-          })}
+            ))}
         </Row>
       </Container>
     </Layout>

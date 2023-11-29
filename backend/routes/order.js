@@ -7,7 +7,19 @@ const { Order } = require("../dbModels/order");
 
 router.get("/", async (req, res) => {
   try {
-    const allOrders = await Order.find();
+    const allOrders = await Order.find()
+      .populate("userID", ["name", "image"])
+      .populate("serviceID", ["name", "image", "price"])
+      .populate({
+        path: "providerID",
+        model: "Provider",
+        select: ["hourly_rate", "image", "rating", "aboutme"],
+        populate: {
+          path: "user",
+          model: "User",
+          select: ["name", "image"],
+        },
+      });
     return res.status(200).json({
       message: "Successfully Fetched !",
       orders: allOrders,
