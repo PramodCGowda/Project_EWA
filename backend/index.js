@@ -8,6 +8,7 @@ const services = require("./routes/service");
 const users = require("./routes/user");
 const providers = require("./routes/provider");
 const categories = require("./routes/category");
+const orders = require("./routes/order");
 
 app.use(cors());
 
@@ -23,6 +24,8 @@ app.use("/api/provider", providers);
 app.use("/api/category", categories);
 
 app.use("/api/user", users);
+
+app.use("/api/order", orders);
 
 const start = async () => {
   let port = 9000;

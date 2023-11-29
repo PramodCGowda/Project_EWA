@@ -32,16 +32,30 @@ export default function PaymentPage() {
   async function handleMakePayment() {
     axios
       .post("http://localhost:9000/api/order", {
-        order,
+        userID: order.provider.user._id,
+        serviceID: order.provider.service._id,
+        providerID: order.provider._id,
+        address: order.address,
+        task: order.task,
+        details: order.details,
         supportFee,
         tax,
         total,
       })
       .then(function (response) {
         console.log(response);
-        // localStorage.setItem("orderIds", token);
+        console.log(response.data.order._id);
+        const existingOrderIds =
+          JSON.parse(localStorage.getItem("orderIds")) || [];
+        console.log(response.data.order._id);
+        const newOrderId = response.data.order._id;
+        existingOrderIds.push(newOrderId);
+        console.log(existingOrderIds);
+        localStorage.setItem("orderIds", JSON.stringify(existingOrderIds));
+        localStorage.removeItem("order");
         alert("Order has been generated");
         window.location.href = "/";
+        console.log(response);
       })
       .catch(function (error) {
         alert("Something went wrong !");
@@ -115,7 +129,7 @@ export default function PaymentPage() {
                     size="lg"
                     variant="outline-success"
                     className="w-100 mt-3"
-                    onClick={() => handleMakePayment}
+                    onClick={() => handleMakePayment()}
                   >
                     Make Payment
                   </Button>
