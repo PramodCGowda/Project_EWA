@@ -53,6 +53,7 @@ function HomeScreen() {
     axios
       .get("http://localhost:9000/api/provider")
       .then(function (response) {
+        console.log(response);
         setProviders(response.data.providers);
       })
       .catch(function (error) {
@@ -90,8 +91,9 @@ function HomeScreen() {
   };
 
   const handleBookAppointment = (provider) => {
-    setCategoryId(provider._id);
-    window.location.href = "/task/" + provider._id;
+    console.log(provider);
+    setCategoryId(provider.id);
+    window.location.href = "/task/" + provider.id;
   };
 
   function debounce(func, timeout = 800) {
@@ -161,7 +163,7 @@ function HomeScreen() {
                   return (
                     <div
                       onClick={() =>
-                        (window.location.href = "/task/" + result._id)
+                        (window.location.href = "/task/" + result.id)
                       }
                       key={result.name + result.id}
                       style={{ cursor: "pointer", marginBottom: "16px" }}
@@ -217,7 +219,7 @@ function HomeScreen() {
             ? providers.map((provider, index) => {
                 if (index < 4) {
                   return (
-                    <Col key={provider._id} xs="12" md="4" lg="3">
+                    <Col key={provider.id} xs="12" md="4" lg="3">
                       <Card style={{ width: "auto", marginBottom: "24px" }}>
                         <div className="pic pt-3 text-center">
                           <img
@@ -249,7 +251,7 @@ function HomeScreen() {
                               {Array.from({ length: provider.rating }).map(
                                 (_, index) => (
                                   <Star
-                                    key={provider._id + index}
+                                    key={provider.id + index}
                                     fill="black"
                                     size={18}
                                   />
@@ -265,7 +267,7 @@ function HomeScreen() {
                             className="w-100"
                             variant="dark"
                             onClick={() => {
-                              handleBookAppointment(provider._id);
+                              handleBookAppointment(provider.id);
                             }}
                           >
                             Book Appointment

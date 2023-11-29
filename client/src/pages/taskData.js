@@ -301,7 +301,7 @@ export default function TaskDataPage() {
                               {Array.from({ length: pro.rating }).map(
                                 (_, index) => (
                                   <Star
-                                    key={pro._id + index}
+                                    key={pro.id + index}
                                     fill="black"
                                     size={18}
                                   />

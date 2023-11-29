@@ -17,6 +17,7 @@ function SignupScreen({ changeScreen }) {
           name,
           email,
           password,
+          contact: phoneNumber,
         })
         .then(function (response) {
           window.location.href = "/auth";

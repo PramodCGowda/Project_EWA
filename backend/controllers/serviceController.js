@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { Service } = require("../dbModels/service");
+const Service = require("../models/serviceModel");
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
@@ -11,9 +11,9 @@ router.use((req, res, next) => {
 
 // -----------------GET REQUESTS
 
-router.get("/", async (req, res) => {
+const getService = async (req, res) => {
   try {
-    const allServices = await Service.find();
+    const allServices = await Service.findAll();
     return res.status(200).json({
       message: "Successfully Fetched !",
       services: allServices,
@@ -24,11 +24,11 @@ router.get("/", async (req, res) => {
       services: null,
     });
   }
-});
+};
 
 // -----------------POST REQUESTS
 
-router.post("/add", async (req, res) => {
+const addService = async (req, res) => {
   try {
     const newService = new Service({ ...req.body });
     const addedService = await newService.save();
@@ -43,6 +43,9 @@ router.post("/add", async (req, res) => {
       services: null,
     });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  getService,
+  addService,
+};

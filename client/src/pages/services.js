@@ -71,7 +71,7 @@ export default function ServicesPage() {
                           size="md"
                           className="w-100"
                           variant="dark"
-                          onClick={() => handleBookAppointment(service._id)}
+                          onClick={() => handleBookAppointment(service.id)}
                         >
                           Book Appointment
                         </Button>

@@ -16,7 +16,7 @@ export default function MyOrdersPage() {
       .then(function (response) {
         console.log(response);
         const filteredOrders = response.data.orders.filter(
-          (order) => order.userID._id === userID
+          (order) => String(order.userId) === String(userID)
         );
         setData(filteredOrders.length ? filteredOrders : {});
         console.log(filteredOrders);
@@ -31,8 +31,8 @@ export default function MyOrdersPage() {
       <Container>
         <h1>My Orders</h1>
         <Row>
-          {data.map((appointment) => (
-            <Col key={appointment._id} md={4} className="mb-4">
+          {data.map((order) => (
+            <Col key={order.id} md={4} className="mb-4">
               <Card>
                 <Card.Img
                   variant="top"
@@ -42,22 +42,26 @@ export default function MyOrdersPage() {
                     objectFit: "cover",
                     objectPosition: "center",
                   }}
-                  src={appointment.providerID.user.image}
+                  src={
+                    order.provider.user.image
+                      ? order.provider.user.image
+                      : "https://ui-avatars.com/api/?name=" +
+                        order.provider.user.name
+                  }
                 />
                 <Card.Body>
-                  <Card.Title>{appointment.serviceID.name}</Card.Title>
+                  <Card.Title>{order.service.name}</Card.Title>
                   <Card.Text className="mb-2 text-muted">
-                    Provider Name: {appointment.providerID.user.name}
+                    Provider Name: {order.provider.user.name}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
-                    Appointment Date:{" "}
-                    {new Date(appointment.details.aptDate).toLocaleDateString()}
+                    order Date: {new Date(order.aptDate).toLocaleDateString()}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
-                    Appointment Time: {appointment.details.aptTime}
+                    order Time: {order.aptTime}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
-                    Task: {appointment.task}
+                    Task: {order.task}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
                     Payment: ${}

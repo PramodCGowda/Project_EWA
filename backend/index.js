@@ -1,42 +1,47 @@
 const express = require("express");
-const app = new express();
+const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const sequelize = require("./db/mysql");
 
 //Importing Routes
-const services = require("./routes/service");
-const users = require("./routes/user");
-const providers = require("./routes/provider");
-const categories = require("./routes/category");
-const orders = require("./routes/order");
+const services = require("./routes/serviceRoute");
+const users = require("./routes/userRoute");
+const providers = require("./routes/providerRoute");
+const orders = require("./routes/orderRoute");
 
-app.use(cors());
+async function startServer() {
+  const app = express();
+  const PORT = 9000;
 
-app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("Welcome to RepairMate");
-});
+  app.use(cors());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/service", services);
+  app.get("/", (req, res) => {
+    res.send("Welcome to RepairMate");
+  });
 
-app.use("/api/provider", providers);
+  app.use("/api/service", services);
 
-app.use("/api/category", categories);
+  app.use("/api/provider", providers);
 
-app.use("/api/user", users);
+  app.use("/api/user", users);
 
-app.use("/api/order", orders);
+  app.use("/api/order", orders);
 
-const start = async () => {
-  let port = 9000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+
   try {
-    await mongoose.connect(
-      "mongodb+srv://pramodcgwd50:mH5Kc53lwA7yjBQI@ewa.ga9tynk.mongodb.net/repairmate?retryWrites=true&w=majority"
-    );
-    app.listen(port, () => console.log("Server started on port: " + port));
+    await sequelize.sync();
+    console.log("Sequelize synchronized successfully!");
+    //await productSeeder.up();
+    console.log("Data seeded successfully!");
   } catch (error) {
-    console.error(error);
-    process.exit(1);
+    console.error("Error during synchronization or seeding:", error);
   }
-};
-start();
+}
+
+startServer();

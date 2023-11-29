@@ -14,11 +14,13 @@ export default function MyAppointmentPage() {
     axios
       .get("http://localhost:9000/api/order")
       .then(function (response) {
+        console.log(response);
+        console.log(userID);
         const filteredOrders = response.data.orders.filter(
-          (order) => order.providerID.user._id === userID
+          (order) => String(order.providerId) === String(userID)
         );
         setData(filteredOrders.length ? filteredOrders : {});
-        console.log(filteredOrders);
+        console.log("filteredOrders", filteredOrders);
       })
       .catch(function (error) {
         console.log(error);
@@ -31,7 +33,7 @@ export default function MyAppointmentPage() {
         <h1>My Appointments</h1>
         <Row>
           {data.map((appointment) => (
-            <Col key={appointment._id} md={4} className="mb-4">
+            <Col key={appointment.id} md={4} className="mb-4">
               <Card>
                 <Card.Img
                   variant="top"
@@ -41,19 +43,24 @@ export default function MyAppointmentPage() {
                     objectFit: "cover",
                     objectPosition: "center",
                   }}
-                  src={appointment.userID.image}
+                  src={
+                    appointment.user.image
+                      ? appointment.user.image
+                      : "https://ui-avatars.com/api/?name=" +
+                        appointment.user.name
+                  }
                 />
                 <Card.Body>
-                  <Card.Title>{appointment.serviceID.name}</Card.Title>
+                  <Card.Title>{appointment.service.name}</Card.Title>
                   <Card.Text className="mb-2 text-muted">
-                    Customer Name: {appointment.userID.name}
+                    Customer Name: {appointment.user.name}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
                     Appointment Date:{" "}
-                    {new Date(appointment.details.aptDate).toLocaleDateString()}
+                    {new Date(appointment.aptDate).toLocaleDateString()}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
-                    Appointment Time: {appointment.details.aptTime}
+                    Appointment Time: {appointment.aptTime}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
                     Task: {appointment.task}

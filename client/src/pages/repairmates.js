@@ -62,7 +62,7 @@ export default function RepairMatesPage() {
                             {Array.from({ length: provider.rating }).map(
                               (_, index) => (
                                 <Star
-                                  key={provider._id + index}
+                                  key={provider.id + index}
                                   fill="black"
                                   size={18}
                                 />

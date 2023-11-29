@@ -31,10 +31,10 @@ export default function PaymentPage() {
 
   async function handleMakePayment() {
     axios
-      .post("http://localhost:9000/api/order", {
-        userID: localStorage.getItem("userId"),
-        serviceID: order.provider.service._id,
-        providerID: order.provider._id,
+      .post("http://localhost:9000/api/order/add", {
+        user: localStorage.getItem("userId"),
+        service: order.provider.serviceId,
+        provider: order.provider.id,
         address: order.address,
         task: order.task,
         details: order.details,
@@ -43,19 +43,14 @@ export default function PaymentPage() {
         total,
       })
       .then(function (response) {
-        console.log(response);
-        console.log(response.data.order._id);
         const existingOrderIds =
           JSON.parse(localStorage.getItem("orderIds")) || [];
-        console.log(response.data.order._id);
-        const newOrderId = response.data.order._id;
+        const newOrderId = response.data.order.id;
         existingOrderIds.push(newOrderId);
-        console.log(existingOrderIds);
         localStorage.setItem("orderIds", JSON.stringify(existingOrderIds));
         localStorage.removeItem("order");
         alert("Order has been generated");
         window.location.href = "/";
-        console.log(response);
       })
       .catch(function (error) {
         alert("Something went wrong !");
@@ -140,7 +135,7 @@ export default function PaymentPage() {
                 <Card className="p-4">
                   <h5>RepairMate Details</h5>
                   <Card style={{ width: "auto", marginBottom: "24px" }}>
-                    <div class="pic pt-3 text-center">
+                    <div className="pic pt-3 text-center">
                       <img
                         style={{ borderRadius: "50%", overflow: "hidden" }}
                         src={
@@ -149,7 +144,7 @@ export default function PaymentPage() {
                             : "https://ui-avatars.com/api/?name=" +
                               order.provider.user.name
                         }
-                        class="img-fluid"
+                        className="img-fluid"
                         height={120}
                         width={120}
                         alt=""
@@ -162,7 +157,7 @@ export default function PaymentPage() {
                           {Array.from({ length: order.provider.rating }).map(
                             (_, index) => (
                               <Star
-                                key={order.provider._id + index}
+                                key={order.provider.id + index}
                                 fill="black"
                                 size={18}
                               />

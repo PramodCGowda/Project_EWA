@@ -22,8 +22,9 @@ export default function OnboardingPage() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
+        console.log(response);
         const serviceCategories = response.data.services.map((service) => ({
-          id: service._id,
+          id: service.id,
           name: service.name,
         }));
         setCategories(serviceCategories);
@@ -40,10 +41,11 @@ export default function OnboardingPage() {
   const saveProvider = (event) => {
     let userID = localStorage.getItem("userId");
     if (userID) {
+      console.log("service", service);
       axios
         .post("http://localhost:9000/api/provider/add", {
           user: userID,
-          service,
+          service: service,
           hourly_rate,
           aboutme,
         })
@@ -57,12 +59,10 @@ export default function OnboardingPage() {
               let user = localStorage.getItem("user");
               let userData = JSON.parse(user);
               if (userData) {
-                console.log(response);
-                userData.role = response.data.role;
+                userData.role = response.data.user.role;
                 localStorage.setItem("user", JSON.stringify(userData));
               }
               let usernew = localStorage.getItem("user");
-              console.log(usernew);
               window.location.href = "/";
             });
         })
@@ -136,7 +136,6 @@ export default function OnboardingPage() {
               defaultValue="Choose..."
               value={service}
               onChange={(e) => {
-                console.log("Selected value:", e.target.value);
                 setService(e.target.value);
               }}
             >
