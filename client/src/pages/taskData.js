@@ -308,6 +308,7 @@ export default function TaskDataPage() {
                                 )
                               )}
                             </div>
+                            <p>({pro.reviews} reviews)</p>
                             <h4 className="text-light">
                               <b>${pro.hourly_rate}</b>
                             </h4>

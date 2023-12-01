@@ -9,6 +9,8 @@ const services = require("./routes/serviceRoute");
 const users = require("./routes/userRoute");
 const providers = require("./routes/providerRoute");
 const orders = require("./routes/orderRoute");
+const { connectMongo } = require("./db/mongo");
+const { ObjectId } = require("mongodb");
 
 async function startServer() {
   const app = express();
@@ -42,6 +44,117 @@ async function startServer() {
   } catch (error) {
     console.error("Error during synchronization or seeding:", error);
   }
+
+  // Connect to MongoDB
+  connectMongo()
+    .then((mongoDb) => {
+      const reviewsData = mongoDb.collection("reviews");
+      app.get("/api/reviews", async (req, res) => {
+        try {
+          const reviews = await reviewsData.find().toArray();
+          res.json(reviews);
+        } catch (error) {
+          console.error("Error retrieving reviews:", error);
+          res.status(500).json({ error: "Internal Server Error" });
+        }
+      });
+
+      app.get("/api/reviews/:providerId", async (req, res) => {
+        try {
+          const providerId = req.params.providerId;
+
+          const reviews = await reviewsData
+            .find({ providerId: providerId })
+            .toArray();
+
+          res.json(reviews);
+        } catch (error) {
+          console.error("Error retrieving reviews:", error);
+          res.status(500).json({ error: "Internal Server Error" });
+        }
+      });
+
+      app.post("/api/reviews", async (req, res) => {
+        try {
+          const existingProvider = await reviewsData.findOne({
+            providerId: req.body.providerId,
+          });
+
+          const newReview = {
+            userId: req.body.userId,
+            userAge: req.body.userAge,
+            userGender: req.body.userGender,
+            userOccupation: req.body.userOccupation,
+            reviewRating: parseInt(req.body.reviewRating),
+            reviewText: req.body.reviewText,
+          };
+
+          if (existingProvider) {
+            // Provider exists, update the document
+            await reviewsData.updateOne(
+              { providerId: req.body.providerId },
+              {
+                $push: {
+                  reviews: newReview,
+                },
+                $set: {
+                  averageRating: parseInt(
+                    calculateAverageRating(
+                      existingProvider.reviews.concat([newReview])
+                    )
+                  ),
+                },
+              }
+            );
+            res.status(200).json({
+              message: "Review added successfully",
+              providerId: req.body.providerId,
+              averageRating: newReview.reviewRating,
+              reviews: existingProvider.reviews.length,
+            });
+          } else {
+            // Provider doesn't exist, create a new document
+            const result = await reviewsData.insertOne({
+              providerId: req.body.providerId,
+              reviews: [newReview],
+              averageRating: req.body.reviewRating,
+            });
+
+            if (result && result.insertedId) {
+              res.status(200).json({
+                message: "Review added successfully",
+                providerId: req.body.providerId,
+                averageRating: averageRating,
+                reviews: 1,
+              });
+            } else {
+              console.error("Error inserting review: Invalid result", result);
+              res.status(500).json({ error: "Internal Server Error" });
+            }
+          }
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: "Something went wrong" });
+        }
+      });
+    })
+    .catch((error) => {
+      console.error("Error connecting to MongoDB:", error);
+      // Handle the error appropriately (e.g., exit the process, show an error message, etc.)
+      process.exit(1);
+    });
+}
+
+// Helper function to calculate average rating
+function calculateAverageRating(reviews) {
+  if (!reviews || reviews.length === 0) {
+    return 0;
+  }
+  const totalRating = reviews.reduce(
+    (acc, review) => acc + review.reviewRating,
+    0
+  );
+  return totalRating / reviews.length;
 }
 
 startServer();

@@ -93,7 +93,7 @@ function HomeScreen() {
   const handleBookAppointment = (provider) => {
     console.log(provider);
     setCategoryId(provider.id);
-    window.location.href = "/task/" + provider.id;
+    window.location.href = "/task/" + provider;
   };
 
   function debounce(func, timeout = 800) {
@@ -258,6 +258,7 @@ function HomeScreen() {
                                 )
                               )}
                             </div>
+                            <p>({provider.reviews} reviews)</p>
                             <h4 className="text-success">
                               ${provider.hourly_rate}
                             </h4>

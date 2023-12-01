@@ -31,8 +31,8 @@ export default function RepairMatesPage() {
       });
   }
 
-  const handleConfirmAppointment = (event) => {
-    window.location.href = "/payment";
+  const handleConfirmAppointment = (provider) => {
+    window.location.href = "/task/" + provider;
   };
 
   return (
@@ -43,11 +43,16 @@ export default function RepairMatesPage() {
           {data && data.length
             ? data.map((provider, index) => {
                 return (
-                  <Col key={provider.user.name} xs="6" md="4" lg="4">
+                  <Col key={provider.user.name + index} xs="6" md="4" lg="4">
                     <Card style={{ width: "auto", marginBottom: "24px" }}>
                       <Card.Img
                         variant="top"
-                        src={provider.user.image}
+                        src={
+                          provider.user.image
+                            ? provider.user.image
+                            : "https://ui-avatars.com/api/?name=" +
+                              provider.user.name
+                        }
                         style={{
                           width: "auto",
                           height: "200px",
@@ -69,6 +74,7 @@ export default function RepairMatesPage() {
                               )
                             )}
                           </div>
+                          <p>({provider.reviews} reviews)</p>
                           <h4 className="text-success">
                             ${provider.hourly_rate}
                           </h4>
@@ -76,7 +82,7 @@ export default function RepairMatesPage() {
                         <Button
                           size="md"
                           variant="dark"
-                          onClick={handleConfirmAppointment}
+                          onClick={() => handleConfirmAppointment(provider.id)}
                         >
                           Confirm Appointment
                         </Button>

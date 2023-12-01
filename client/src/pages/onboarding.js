@@ -22,7 +22,6 @@ export default function OnboardingPage() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
-        console.log(response);
         const serviceCategories = response.data.services.map((service) => ({
           id: service.id,
           name: service.name,

@@ -72,6 +72,12 @@ const Order = sequelize.define(
     total: {
       type: DataTypes.DOUBLE,
     },
+    orderedDate: {
+      type: DataTypes.DATE,
+    },
+    status: {
+      type: DataTypes.STRING,
+    },
   },
   {
     timestamps: true,

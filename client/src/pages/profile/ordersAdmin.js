@@ -12,7 +12,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Star } from "react-feather";
 
-export default function MyOrdersPage() {
+export default function AdminOrderPage() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -20,25 +20,36 @@ export default function MyOrdersPage() {
   }, []);
 
   async function getData() {
-    let userID = localStorage.getItem("userId");
     axios
       .get("http://localhost:9000/api/order/")
       .then(function (response) {
-        const filteredOrders = response.data.orders.filter(
-          (order) => String(order.userId) === String(userID)
-        );
-        setData(filteredOrders.length ? filteredOrders : {});
-        console.log(filteredOrders);
+        console.log(response);
+        setData(response.data.orders.length ? response.data.orders : {});
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
+  async function handleCancelOrder(id) {
+    axios
+      .put("http://localhost:9000/api/order/", {
+        orderId: id,
+        status: "Cancelled",
+      })
+      .then(function (response) {
+        console.log(response);
+        alert("Order Cancelled");
+      })
+      .catch(function (error) {
+        alert("Something went wrong !");
+      });
+  }
+
   return (
     <Layout>
       <Container>
-        <h1>My Orders</h1>
+        <h1>All Orders</h1>
         <Row>
           {data.map((order) => (
             <Col key={order.id} md={4} className="mb-4">
@@ -75,6 +86,9 @@ export default function MyOrdersPage() {
                   <Card.Text className="mb-2 text-muted">
                     Payment: ${}
                   </Card.Text>
+                  <Card.Text className="mb-2 text-muted">
+                    Status: {order.status}
+                  </Card.Text>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       {Array.from({ length: order.provider.rating }).map(
@@ -96,9 +110,11 @@ export default function MyOrdersPage() {
                     <Button
                       size="md"
                       variant="dark"
-                      onClick={() => navigate(`/review/${order.providerId}`)}
+                      onClick={() => {
+                        handleCancelOrder(order.id);
+                      }}
                     >
-                      Write Review
+                      Cancel Order
                     </Button>
                     <Button
                       className="w-50"
@@ -107,7 +123,7 @@ export default function MyOrdersPage() {
                         navigate(`/viewreview/${order.providerId}`)
                       }
                     >
-                      View Review
+                      Update Order
                     </Button>
                   </ButtonGroup>
                 </Card.Body>

@@ -35,24 +35,23 @@ const getProvider = async (req, res) => {
   }
 };
 
-// router.get("/:id", async (req, res) => {
-//   try {
-//     const serviceId = decodeURIComponent(req.params.id);
-//     const allProviders = await Provider.findById(serviceId)
-//       .populate("user", ["name", "image"])
-//       .populate("service", ["name", "image", "price"]);
-//     console.log(allProviders);
-//     return res.status(200).json({
-//       message: "Successfully Fetched !",
-//       providers: allProviders,
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       message: "Something Went Wrong !",
-//       providers: null,
-//     });
-//   }
-// });
+const getProviderById = async (req, res) => {
+  try {
+    const providerId = decodeURIComponent(req.params.id);
+    const provider = await Provider.findByPk(providerId);
+
+    console.log(provider);
+    return res.status(200).json({
+      message: "Successfully Fetched !",
+      provider: provider,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something Went Wrong !",
+      providers: null,
+    });
+  }
+};
 
 // -----------------POST REQUESTS
 
@@ -76,7 +75,66 @@ const addProvider = async (req, res) => {
   }
 };
 
+const updateProvider = async (req, res) => {
+  try {
+    const { providerId, rating, reviews } = req.body;
+
+    const [affectedRowsCount] = await Provider.update(
+      { rating: rating, reviews: reviews },
+      { where: { id: providerId }, returning: true }
+    );
+
+    if (affectedRowsCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "provider not found" });
+    }
+
+    const updatedProvider = await Provider.findOne({
+      where: { id: providerId },
+    });
+
+    return res.status(200).json({ success: true, provider: updatedProvider });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+const updateProviderStatus = async (req, res) => {
+  try {
+    const { providerId, status } = req.body;
+
+    const [affectedRowsCount] = await Provider.update(
+      { status: status },
+      { where: { id: providerId }, returning: true }
+    );
+
+    if (affectedRowsCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "provider not found" });
+    }
+
+    const updatedProvider = await Provider.findOne({
+      where: { id: providerId },
+    });
+
+    return res.status(200).json({ success: true, provider: updatedProvider });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   getProvider,
   addProvider,
+  getProviderById,
+  updateProvider,
+  updateProviderStatus,
 };

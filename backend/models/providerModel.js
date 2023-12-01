@@ -38,13 +38,17 @@ const Provider = sequelize.define(
     rating: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      defaultValue: 2,
+      defaultValue: 5,
     },
     reviews: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     aboutme: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    status: {
       type: DataTypes.STRING,
       allowNull: false,
     },

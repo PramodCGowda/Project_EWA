@@ -17,6 +17,11 @@ import MapWindow from "../pages/nearme";
 import MyProfilePage from "../pages/profile/myprofile";
 import MyAppointmentPage from "../pages/profile/appointments";
 import MyOrdersPage from "../pages/profile/myorders";
+import ReviewPage from "../pages/review";
+import ViewReviewPage from "../pages/viewReview";
+import UserViewPage from "../pages/profile/userview";
+import AdminOrderPage from "../pages/profile/ordersAdmin";
+import AdminServicePage from "../pages/profile/servicesAdmin";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomeScreen /> },
@@ -36,4 +41,9 @@ export const router = createBrowserRouter([
   { path: "/myprofile", element: <MyProfilePage /> },
   { path: "/appointments", element: <MyAppointmentPage /> },
   { path: "/myorders", element: <MyOrdersPage /> },
+  { path: "/review/:providerId", element: <ReviewPage /> },
+  { path: "/viewreview/:providerId", element: <ViewReviewPage /> },
+  { path: "/userview", element: <UserViewPage /> },
+  { path: "/ordersAdmin", element: <AdminOrderPage /> },
+  { path: "/servicesAdmin", element: <AdminServicePage /> },
 ]);

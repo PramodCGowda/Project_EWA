@@ -67,25 +67,24 @@ export default function PaymentPage() {
       try {
         let orderDetails = localStorage.getItem("order");
         let order = JSON.parse(orderDetails);
+        setTotal(order.provider.hourly_rate);
         if (order?.details) {
           setOrder(order);
-          // const supportFeeValue = (
-          //   (order.provider.hourly_rate * 2.5) /
-          //   100
-          // ).toFixed(2);
-          // setSupportFee(supportFeeValue);
-          // setTotal((prevTotal) => (prevTotal || 0) + Number(supportFeeValue));
-          // console.log(total);
-          // const taxValue = ((Number(total) * 10.5) / 100).toFixed(2);
-          // setTax(taxValue);
-
-          // // Use functional update again
-          // setTotal((prevTotal) => (prevTotal + Number(taxValue)).toFixed(2));
+          const supportFeeValue = (
+            (order.provider.hourly_rate * 5.5) /
+            100
+          ).toFixed(2);
+          setSupportFee(supportFeeValue);
+          setTotal((prevTotal) => {
+            const updatedTotal =
+              (Number(prevTotal) || 0) + Number(supportFeeValue);
+            const taxValue = ((updatedTotal * 10.5) / 100).toFixed(2);
+            setTax(taxValue);
+            return (Number(updatedTotal) || 0) + Number(taxValue);
+          });
         }
       } catch (error) {
         console.error("Error fetching order details:", error);
-        // Handle error or set default values for order
-        setOrder(/* Default values */);
       }
     };
 
@@ -164,6 +163,7 @@ export default function PaymentPage() {
                             )
                           )}
                         </div>
+                        <p>({order.provider.reviews} reviews)</p>
                         <h4 className="text-success">
                           ${order.provider.hourly_rate}
                         </h4>
@@ -189,41 +189,18 @@ export default function PaymentPage() {
                     </Card.Text>
                     <Card.Text className="d-flex justify-content-between align-items-center mb-0">
                       <p>Support Fee</p>
-                      <p>
-                        ${((order.provider.hourly_rate * 2.5) / 100).toFixed(2)}
-                      </p>
+                      <p>${supportFee}</p>
                     </Card.Text>
                     <Card.Text className="d-flex justify-content-between align-items-center mb-0">
                       <p>Taxes</p>
-                      <p>
-                        $
-                        {(
-                          ((order.provider.hourly_rate * 2.5) / 100) *
-                          10.5
-                        ).toFixed(2)}
-                      </p>
+                      <p>${tax}</p>
                     </Card.Text>
                     <Card.Text className="d-flex justify-content-between align-items-center mb-0">
                       <p>
                         <b>Total Price: </b>
                       </p>
                       <p>
-                        <b className="text-success">
-                          $
-                          {Number(order.provider.hourly_rate) +
-                            Number(
-                              (
-                                (order.provider.hourly_rate * 2.5) /
-                                100
-                              ).toFixed(2)
-                            ) +
-                            Number(
-                              (
-                                ((order.provider.hourly_rate * 2.5) / 100) *
-                                10.5
-                              ).toFixed(2)
-                            )}
-                        </b>
+                        <b className="text-success">${total}</b>
                       </p>
                     </Card.Text>
                     <Card.Text>

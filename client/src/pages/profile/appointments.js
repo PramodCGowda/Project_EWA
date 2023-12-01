@@ -14,13 +14,10 @@ export default function MyAppointmentPage() {
     axios
       .get("http://localhost:9000/api/order")
       .then(function (response) {
-        console.log(response);
-        console.log(userID);
         const filteredOrders = response.data.orders.filter(
           (order) => String(order.providerId) === String(userID)
         );
         setData(filteredOrders.length ? filteredOrders : {});
-        console.log("filteredOrders", filteredOrders);
       })
       .catch(function (error) {
         console.log(error);

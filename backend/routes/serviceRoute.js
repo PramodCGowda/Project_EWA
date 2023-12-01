@@ -5,6 +5,10 @@ const router = express.Router();
 
 router.get("/", serviceController.getService);
 
+router.put("/", serviceController.updateService);
+
 router.post("/add", serviceController.addService);
+
+router.delete("/:id", serviceController.deleteService);
 
 module.exports = router;

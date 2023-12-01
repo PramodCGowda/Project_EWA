@@ -54,7 +54,7 @@ export default function ProfileMenuScreen() {
         name: "My View",
         icon: <DollarSign size="40" />,
         description: "Data Analytics",
-        goto: "/",
+        goto: "/userview",
       },
     ],
     [roles.ADMIN]: [
@@ -68,19 +68,19 @@ export default function ProfileMenuScreen() {
         name: "Orders",
         icon: <Calendar size="40" />,
         description: "Manage All Orders",
-        goto: "/",
+        goto: "/ordersAdmin",
       },
       {
         name: "Services",
         icon: <Calendar size="40" />,
         description: "Manage All Services",
-        goto: "/",
+        goto: "/servicesAdmin",
       },
       {
         name: "My View",
         icon: <DollarSign size="40" />,
         description: "Data Analytics",
-        goto: "/",
+        goto: "/adminview",
       },
     ],
   };
