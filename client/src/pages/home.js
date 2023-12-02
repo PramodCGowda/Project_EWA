@@ -33,7 +33,11 @@ function HomeScreen() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
-        setData(response.data.services);
+        console.log("services", response);
+        const filteredServices = response.data.services.filter(
+          (service) => service.status !== "Inactive"
+        );
+        setData(filteredServices.length ? filteredServices : {});
       })
       .catch(function (error) {
         console.log(error);
@@ -54,7 +58,10 @@ function HomeScreen() {
       .get("http://localhost:9000/api/provider")
       .then(function (response) {
         console.log(response);
-        setProviders(response.data.providers);
+        const filteredProviders = response.data.providers.filter(
+          (provider) => provider.status !== "Inactive"
+        );
+        setProviders(filteredProviders.length ? filteredProviders : {});
       })
       .catch(function (error) {
         console.log(error);

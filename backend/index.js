@@ -11,6 +11,8 @@ const providers = require("./routes/providerRoute");
 const orders = require("./routes/orderRoute");
 const { connectMongo } = require("./db/mongo");
 const { ObjectId } = require("mongodb");
+const pythonS = require("./routes/pythonRunRoute");
+const getLocationsPython = require("./routes/nearmeRouter");
 
 async function startServer() {
   const app = express();
@@ -31,6 +33,10 @@ async function startServer() {
   app.use("/api/user", users);
 
   app.use("/api/order", orders);
+
+  app.use("/api/python_run", pythonS);
+
+  app.use("/api/getNearMe", getLocationsPython);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

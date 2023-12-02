@@ -4,6 +4,8 @@ import { Calendar, DollarSign, User } from "react-feather";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import Heading from "../../components/heading";
 import { roles } from "../../mappings/index";
+import { TrendingDown } from "react-feather";
+import { TrendingUp } from "react-feather";
 
 export default function ProfileMenuScreen() {
   const [role, setRole] = useState("");
@@ -32,9 +34,9 @@ export default function ProfileMenuScreen() {
       },
       {
         name: "My View",
-        icon: <DollarSign size="40" />,
+        icon: <TrendingUp size="40" />,
         description: "Data Analytics",
-        goto: "/",
+        goto: "/providerView",
       },
     ],
     [roles.CUSTOMER]: [
@@ -77,10 +79,16 @@ export default function ProfileMenuScreen() {
         goto: "/servicesAdmin",
       },
       {
+        name: "Providers",
+        icon: <Calendar size="40" />,
+        description: "Manage All Providers",
+        goto: "/manageProvider",
+      },
+      {
         name: "My View",
         icon: <DollarSign size="40" />,
         description: "Data Analytics",
-        goto: "/adminview",
+        goto: "/adminView",
       },
     ],
   };

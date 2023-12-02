@@ -4,7 +4,7 @@ import Chart from "react-google-charts";
 import axios from "axios";
 import Layout from "../../components/layout";
 
-export default function UserViewPage() {
+export default function AdminViewPage() {
   const [orders, setOrders] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState();
 
@@ -25,24 +25,8 @@ export default function UserViewPage() {
           const filteredOrders = response.data.orders.filter(
             (order) => String(order.userId) === String(userID)
           );
-          const serviceSpentMap = filteredOrders.reduce((map, order) => {
-            const serviceName = order.service.name;
-            if (!map.has(serviceName)) {
-              map.set(serviceName, order.total);
-            } else {
-              map.set(serviceName, map.get(serviceName) + order.total);
-            }
-
-            return map;
-          }, new Map());
-          const serviceSpentArray = Array.from(
-            serviceSpentMap,
-            ([serviceName, totalSpent]) => ({
-              serviceName,
-              totalSpent,
-            })
-          );
-          setOrders(serviceSpentArray);
+          setOrders(filteredOrders.length ? filteredOrders : []);
+          console.log(filteredOrders);
         })
         .catch(function (error) {
           console.log(error);
@@ -65,8 +49,8 @@ export default function UserViewPage() {
       },
     ],
     ...orders.map((order, index) => [
-      order.serviceName,
-      order.totalSpent,
+      order.service.name,
+      order.total,
       index % 2 === 0 ? "silver" : "#b87333",
       null,
     ]),

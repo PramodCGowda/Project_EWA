@@ -40,7 +40,7 @@ export default function AdminServicePage() {
     axios
       .put("http://localhost:9000/api/service/", {
         serviceId: id,
-        status: "inactive",
+        status: "Inactive",
       })
       .then(function (response) {
         console.log(response);
@@ -84,11 +84,13 @@ export default function AdminServicePage() {
                       <Card.Body>
                         <Card.Title>{service.name}</Card.Title>
                         <Card.Text>{trimText(service.description)}</Card.Text>
+                        <Card.Text>Status: {service.status}</Card.Text>
                         <Button
                           size="md"
                           className="w-100"
                           variant="dark"
                           onClick={() => handleDeactivateService(service.id)}
+                          disabled={service.status === "Inactive"}
                         >
                           Deactivate Service
                         </Button>

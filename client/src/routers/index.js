@@ -22,6 +22,9 @@ import ViewReviewPage from "../pages/viewReview";
 import UserViewPage from "../pages/profile/userview";
 import AdminOrderPage from "../pages/profile/ordersAdmin";
 import AdminServicePage from "../pages/profile/servicesAdmin";
+import ProviderViewPage from "../pages/profile/providerView";
+import AdminViewPage from "../pages/profile/adminView";
+import ManageProviderPage from "../pages/profile/manageProvider";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomeScreen /> },
@@ -30,7 +33,7 @@ export const router = createBrowserRouter([
   { path: "/services", element: <ServicesPage /> },
   { path: "/services", element: <ServicesPage /> },
   { path: "/auth", element: <AuthScreen /> },
-  { path: "/task/:serviceId", element: <TaskDataPage /> },
+  { path: "/task/:id", element: <TaskDataPage /> },
   { path: "/repairmates", element: <RepairMatesPage /> },
   { path: "/payment", element: <PaymentPage /> },
   { path: "/about", element: <AboutPage /> },
@@ -46,4 +49,7 @@ export const router = createBrowserRouter([
   { path: "/userview", element: <UserViewPage /> },
   { path: "/ordersAdmin", element: <AdminOrderPage /> },
   { path: "/servicesAdmin", element: <AdminServicePage /> },
+  { path: "/providerView", element: <ProviderViewPage /> },
+  { path: "/adminView", element: <AdminViewPage /> },
+  { path: "/manageProvider", element: <ManageProviderPage /> },
 ]);

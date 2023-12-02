@@ -179,7 +179,7 @@ const updateOrder = async (req, res) => {
     if (affectedRowsCount === 0) {
       return res
         .status(404)
-        .json({ success: false, message: "provider not found" });
+        .json({ success: false, message: "order not found" });
     }
 
     const updatedOrder = await Order.findOne({

@@ -43,6 +43,7 @@ const Provider = sequelize.define(
     reviews: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: 0,
     },
     aboutme: {
       type: DataTypes.STRING,
@@ -51,6 +52,7 @@ const Provider = sequelize.define(
     status: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "Active",
     },
   },
   {

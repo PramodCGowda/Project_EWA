@@ -35,6 +35,21 @@ export default function MyOrdersPage() {
       });
   }
 
+  async function handleCancelOrder(id) {
+    axios
+      .put("http://localhost:9000/api/order/", {
+        orderId: id,
+        status: "Cancelled",
+      })
+      .then(function (response) {
+        console.log(response);
+        alert("Order Cancelled");
+      })
+      .catch(function (error) {
+        alert("Something went wrong !");
+      });
+  }
+
   return (
     <Layout>
       <Container>
@@ -73,6 +88,9 @@ export default function MyOrdersPage() {
                     Task: {order.task}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
+                    Task: {order.status}
+                  </Card.Text>
+                  <Card.Text className="mb-2 text-muted">
                     Payment: ${}
                   </Card.Text>
                   <div className="d-flex justify-content-between align-items-center">
@@ -93,13 +111,27 @@ export default function MyOrdersPage() {
                     </h5>
                   </div>
                   <ButtonGroup className="w-100" aria-label="Basic example">
-                    <Button
-                      size="md"
-                      variant="dark"
-                      onClick={() => navigate(`/review/${order.providerId}`)}
-                    >
-                      Write Review
-                    </Button>
+                    {order.status === "Completed" && (
+                      <Button
+                        size="md"
+                        variant="dark"
+                        onClick={() => navigate(`/review/${order.providerId}`)}
+                      >
+                        Write Review
+                      </Button>
+                    )}
+                    {(order.status === "Created" ||
+                      order.status === "In Progress") && (
+                      <Button
+                        size="md"
+                        variant="dark"
+                        onClick={() => {
+                          handleCancelOrder(order.id);
+                        }}
+                      >
+                        Cancel Order
+                      </Button>
+                    )}
                     <Button
                       className="w-50"
                       variant="light"

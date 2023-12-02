@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import Layout from "../components/layout";
-import Heading from "../components/heading";
-import { REPAIRMATE_TITLE } from "../mappings";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  ButtonGroup,
+} from "react-bootstrap";
+import Layout from "../../components/layout";
+import Heading from "../../components/heading";
+import { REPAIRMATE_TITLE } from "../../mappings";
 import axios from "axios";
 import { Star } from "react-feather";
 
-export default function RepairMatesPage() {
+export default function ManageProviderPage() {
   const [data, setData] = useState([]);
 
   function trimText(text) {
@@ -22,7 +29,6 @@ export default function RepairMatesPage() {
     axios
       .get("http://localhost:9000/api/provider")
       .then(function (response) {
-        const temp = response.data.providers;
         const filteredProviders = response.data.providers.filter(
           (provider) => provider.status !== "Inactive"
         );
@@ -33,8 +39,18 @@ export default function RepairMatesPage() {
       });
   }
 
-  const handleConfirmAppointment = (provider) => {
-    window.location.href = "/task/" + provider;
+  const handleDeactivate = (id) => {
+    axios
+      .put("http://localhost:9000/api/provider/status", {
+        providerId: id,
+        status: "Inactive",
+      })
+      .then(function (response) {
+        alert("Service Deactivated");
+      })
+      .catch(function (error) {
+        alert("Something went wrong !");
+      });
   };
 
   return (
@@ -64,6 +80,7 @@ export default function RepairMatesPage() {
                       />
                       <Card.Body>
                         <Card.Title>{provider.user.name}</Card.Title>
+                        <Card.Text>Status: {provider.status}</Card.Text>
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
                             {Array.from({ length: provider.rating }).map(
@@ -81,13 +98,19 @@ export default function RepairMatesPage() {
                             ${provider.hourly_rate}
                           </h4>
                         </div>
-                        <Button
-                          size="md"
-                          variant="dark"
-                          onClick={() => handleConfirmAppointment(provider.id)}
+                        <ButtonGroup
+                          className="w-100"
+                          aria-label="Basic example"
                         >
-                          Confirm Appointment
-                        </Button>
+                          <Button
+                            size="md"
+                            variant="dark"
+                            onClick={() => handleDeactivate(provider.id)}
+                            disabled={provider.status === "Inactive"}
+                          >
+                            Deactivate Provider
+                          </Button>
+                        </ButtonGroup>
                       </Card.Body>
                     </Card>
                   </Col>

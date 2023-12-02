@@ -113,17 +113,9 @@ export default function AdminOrderPage() {
                       onClick={() => {
                         handleCancelOrder(order.id);
                       }}
+                      disabled={order.status === "Cancelled"}
                     >
                       Cancel Order
-                    </Button>
-                    <Button
-                      className="w-50"
-                      variant="light"
-                      onClick={() =>
-                        navigate(`/viewreview/${order.providerId}`)
-                      }
-                    >
-                      Update Order
                     </Button>
                   </ButtonGroup>
                 </Card.Body>

@@ -13,7 +13,6 @@ export default function ServicesPage() {
   }
 
   useEffect(() => {
-    console.log("inside services");
     getData();
   }, []);
 
@@ -21,9 +20,11 @@ export default function ServicesPage() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
-        const temp = response.data.services;
-        console.log(temp);
-        setData(temp);
+        console.log(response);
+        const filteredServices = response.data.services.filter(
+          (service) => service.status !== "Inactive"
+        );
+        setData(filteredServices.length ? filteredServices : {});
       })
       .catch(function (error) {
         console.log(error);

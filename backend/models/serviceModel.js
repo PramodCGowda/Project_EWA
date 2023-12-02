@@ -33,6 +33,7 @@ const Service = sequelize.define(
     status: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "Active",
     },
   },
   {

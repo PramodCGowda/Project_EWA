@@ -38,16 +38,16 @@ export default function TaskDataPage() {
   });
   const [task, setTask] = useState("");
 
-  useEffect(() => {
-    console.log("param in task page", params.categoryId);
-  }, []);
-
   async function getProviders() {
     axios
       .get("http://localhost:9000/api/provider")
       .then(function (response) {
         console.log(response);
-        setProviders(response.data.providers);
+        const filteredProviders = response.data.providers.filter(
+          (provider) =>
+            provider.status !== "Inactive" && provider.serviceId == params.id
+        );
+        setProviders(filteredProviders.length ? filteredProviders : {});
       })
       .catch(function (error) {
         console.log(error);

@@ -168,14 +168,14 @@ export default function PaymentPage() {
                           ${order.provider.hourly_rate}
                         </h4>
                       </div>
-                      <Button
+                      {/* <Button
                         size="md"
                         variant="dark"
                         className="w-100 mt-2"
                         onClick={handleConnectWithRepairMate}
                       >
-                        Change RepairMate
-                      </Button>
+                        View Profile
+                      </Button> */}
                     </Card.Body>
                   </Card>
                 </Card>
