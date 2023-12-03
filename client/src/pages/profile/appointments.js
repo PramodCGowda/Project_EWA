@@ -16,6 +16,11 @@ export default function MyAppointmentPage() {
     getData();
   }, []);
 
+  function trimText(text) {
+    if (text.length < 100) return text;
+    return text.substring(0, 100) + "...";
+  }
+
   async function getData() {
     let userID = localStorage.getItem("userId");
     axios
@@ -83,7 +88,7 @@ export default function MyAppointmentPage() {
                       Appointment Time: {appointment.aptTime}
                     </Card.Text>
                     <Card.Text className="mb-2 text-muted">
-                      Task: {appointment.task}
+                      Task: {trimText(appointment.task)}
                     </Card.Text>
                     <Card.Text className="mb-2 text-muted">
                       address: {appointment.street}

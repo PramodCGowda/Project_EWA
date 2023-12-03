@@ -12,8 +12,10 @@ import Heading from "../../components/heading";
 import { REPAIRMATE_TITLE } from "../../mappings";
 import axios from "axios";
 import { Star } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageProviderPage() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   function trimText(text) {
@@ -29,10 +31,10 @@ export default function ManageProviderPage() {
     axios
       .get("http://localhost:9000/api/provider")
       .then(function (response) {
-        const filteredProviders = response.data.providers.filter(
-          (provider) => provider.status !== "Inactive"
-        );
-        setData(filteredProviders.length ? filteredProviders : {});
+        // const filteredProviders = response.data.providers.filter(
+        //   (provider) => provider.status !== "Inactive"
+        // );
+        setData(response.data.providers.length ? response.data.providers : {});
       })
       .catch(function (error) {
         console.log(error);
@@ -56,7 +58,7 @@ export default function ManageProviderPage() {
   return (
     <Layout>
       <Container>
-        <Heading title={REPAIRMATE_TITLE} />
+        <Heading title="Service Providers" />
         <Row>
           {data && data.length
             ? data.map((provider, index) => {
@@ -103,12 +105,21 @@ export default function ManageProviderPage() {
                           aria-label="Basic example"
                         >
                           <Button
+                            className="w-50"
+                            variant="light"
+                            onClick={() =>
+                              navigate(`/viewreview/${provider.id}`)
+                            }
+                          >
+                            View Review
+                          </Button>
+                          <Button
                             size="md"
                             variant="dark"
                             onClick={() => handleDeactivate(provider.id)}
                             disabled={provider.status === "Inactive"}
                           >
-                            Deactivate Provider
+                            Deactivate
                           </Button>
                         </ButtonGroup>
                       </Card.Body>

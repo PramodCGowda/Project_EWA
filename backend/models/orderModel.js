@@ -49,7 +49,7 @@ const Order = sequelize.define(
       type: DataTypes.STRING,
     },
     task: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     demand: {
       type: DataTypes.STRING,

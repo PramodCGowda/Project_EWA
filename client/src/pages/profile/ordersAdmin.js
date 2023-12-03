@@ -19,12 +19,16 @@ export default function AdminOrderPage() {
     getData();
   }, []);
 
+  function trimText(text) {
+    if (text.length < 100) return text;
+    return text.substring(0, 100) + "...";
+  }
   async function getData() {
     axios
       .get("http://localhost:9000/api/order/")
       .then(function (response) {
         console.log(response);
-        setData(response.data.orders.length ? response.data.orders : {});
+        setData(response.data.orders.length ? response.data.orders : []);
       })
       .catch(function (error) {
         console.log(error);
@@ -38,7 +42,17 @@ export default function AdminOrderPage() {
         status: "Cancelled",
       })
       .then(function (response) {
-        console.log(response);
+        const { order } = response.data;
+        console.log(order);
+        const temp = [];
+        data.forEach((curr) => {
+          if (curr.id == order.id) {
+            temp.push({ ...curr, status: "Cancelled" });
+          } else {
+            temp.push(curr);
+          }
+        });
+        setData(temp);
         alert("Order Cancelled");
       })
       .catch(function (error) {
@@ -48,6 +62,7 @@ export default function AdminOrderPage() {
 
   return (
     <Layout>
+      {console.log("Inside Return Statement", data)}
       <Container>
         <h1>All Orders</h1>
         <Row>
@@ -81,7 +96,7 @@ export default function AdminOrderPage() {
                     order Time: {order.aptTime}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
-                    Task: {order.task}
+                    Task: {trimText(order.task)}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
                     Payment: ${}

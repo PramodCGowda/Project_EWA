@@ -130,7 +130,7 @@ async function startServer() {
               res.status(200).json({
                 message: "Review added successfully",
                 providerId: req.body.providerId,
-                averageRating: averageRating,
+                averageRating: req.body.reviewRating,
                 reviews: 1,
               });
             } else {

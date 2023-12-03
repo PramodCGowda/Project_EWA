@@ -7,9 +7,9 @@ import Heading from "../components/heading";
 export default function ServicesPage() {
   const [data, setData] = useState([]);
 
-  function trimText(text) {
-    if (text.length < 100) return text;
-    return text.substring(0, 100) + "...";
+  function trimText(text, limit) {
+    if (text.length < limit) return text;
+    return text.substring(0, limit) + "...";
   }
 
   useEffect(() => {
@@ -66,8 +66,10 @@ export default function ServicesPage() {
                         }}
                       />
                       <Card.Body>
-                        <Card.Title>{service.name}</Card.Title>
-                        <Card.Text>{trimText(service.description)}</Card.Text>
+                        <Card.Title>{trimText(service.name, 20)}</Card.Title>
+                        <Card.Text>
+                          {trimText(service.description, 100)}
+                        </Card.Text>
                         <Button
                           size="md"
                           className="w-100"

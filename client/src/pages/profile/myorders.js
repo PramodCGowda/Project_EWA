@@ -19,6 +19,11 @@ export default function MyOrdersPage() {
     getData();
   }, []);
 
+  function trimText(text) {
+    if (text.length < 100) return text;
+    return text.substring(0, 100) + "...";
+  }
+
   async function getData() {
     let userID = localStorage.getItem("userId");
     axios
@@ -85,7 +90,7 @@ export default function MyOrdersPage() {
                     order Time: {order.aptTime}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
-                    Task: {order.task}
+                    Task: {trimText(order.task)}
                   </Card.Text>
                   <Card.Text className="mb-2 text-muted">
                     Task: {order.status}

@@ -22,11 +22,29 @@ export default function AdminViewPage() {
       axios
         .get(apiUrl)
         .then(function (response) {
-          const filteredOrders = response.data.orders.filter(
-            (order) => String(order.userId) === String(userID)
+          console.log(response);
+          const serviceEarningsMap = response.data.orders.reduce(
+            (map, order) => {
+              const serviceName = order.service.name;
+              if (!map.has(serviceName)) {
+                map.set(serviceName, order.total);
+              } else {
+                map.set(serviceName, map.get(serviceName) + order.total);
+              }
+
+              return map;
+            },
+            new Map()
           );
-          setOrders(filteredOrders.length ? filteredOrders : []);
-          console.log(filteredOrders);
+          const serviceEarningsArray = Array.from(
+            serviceEarningsMap,
+            ([serviceName, totalEarnings]) => ({
+              serviceName,
+              totalEarnings,
+            })
+          );
+          console.log(serviceEarningsArray);
+          setOrders(serviceEarningsArray);
         })
         .catch(function (error) {
           console.log(error);
@@ -49,18 +67,18 @@ export default function AdminViewPage() {
       },
     ],
     ...orders.map((order, index) => [
-      order.service.name,
-      order.total,
+      order.serviceName,
+      order.totalEarnings,
       index % 2 === 0 ? "silver" : "#b87333",
       null,
     ]),
   ];
 
   const options = {
-    title: "Your Orders",
+    title: "Orders",
     chartArea: { width: "70%" },
     hAxis: {
-      title: "Total Spent",
+      title: "Total Revenue",
       minValue: 0,
     },
     vAxis: {

@@ -22,7 +22,7 @@ const getOrder = async (req, res) => {
         {
           model: Service,
           as: "service",
-          attributes: ["name", "image", "price"],
+          attributes: ["name", "image", "price", "category"],
         },
         {
           model: Provider,

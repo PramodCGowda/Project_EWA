@@ -33,7 +33,6 @@ function HomeScreen() {
     axios
       .get("http://localhost:9000/api/service")
       .then(function (response) {
-        console.log("services", response);
         const filteredServices = response.data.services.filter(
           (service) => service.status !== "Inactive"
         );
@@ -46,51 +45,103 @@ function HomeScreen() {
 
   useEffect(() => {
     getData();
+    getProvidersByOpenAPI();
   }, []);
 
-  async function getProviders() {
+  async function getProvidersByOpenAPI() {
+    let userID = localStorage.getItem("userId");
     let user = localStorage.getItem("user");
     let userData = JSON.parse(user);
     if (userData?.role) {
-      setRole(userData.role);
+      const role = userData.role;
     }
-    axios
-      .get("http://localhost:9000/api/provider")
-      .then(function (response) {
-        console.log(response);
-        const filteredProviders = response.data.providers.filter(
-          (provider) => provider.status !== "Inactive"
+    if (userID) {
+      try {
+        const response = await axios.get("http://localhost:9000/api/order");
+        const filteredOrders = response.data.orders.filter(
+          (order) => String(order.userId) === String(userID)
         );
-        setProviders(filteredProviders.length ? filteredProviders : {});
-      })
-      .catch(function (error) {
+
+        const data =
+          role === "customer" ? filteredOrders : response.data.orders;
+        const serviceCategoryCounts = data.reduce((acc, order) => {
+          const serviceCategory = order.service.category;
+          acc[serviceCategory] = (acc[serviceCategory] || 0) + 1;
+          return acc;
+        }, {});
+
+        const serviceCategoryCountsArray = Object.entries(
+          serviceCategoryCounts
+        ).map(([serviceCategory, count]) => ({
+          serviceCategory,
+          count,
+        }));
+
+        const maxOrderedCategory = serviceCategoryCountsArray.reduce(
+          (max, current) =>
+            current.count > (max ? max.count : 0) ? current : max,
+          null
+        );
+        axios
+          .get("http://localhost:9000/api/python_run", {
+            params: {
+              queryString: "green",
+            },
+          })
+          .then(function (response) {
+            var inputString = response.data.op;
+            const fixedString = inputString.replace(/'/g, '"');
+            const jsonArray = JSON.parse(fixedString);
+            axios
+              .get("http://localhost:9000/api/provider")
+              .then(function (response) {
+                const filteredProviders = response.data.providers.filter(
+                  (provider) => provider.status !== "Inactive"
+                );
+                const providers = filteredProviders.length
+                  ? filteredProviders
+                  : {};
+                const categoryProviderMap = {};
+                jsonArray.forEach((category) => {
+                  const providersInCategory = providers.filter(
+                    (provider) => provider.service.name === category
+                  );
+                  categoryProviderMap[category] = providersInCategory.length
+                    ? providersInCategory
+                    : {};
+                });
+
+                const bestRatedProviders = {};
+                Object.entries(categoryProviderMap).forEach(
+                  ([category, providersInCategory]) => {
+                    if (providersInCategory.length) {
+                      const bestRatedProvider = providersInCategory.reduce(
+                        (max, current) =>
+                          current.rating > max.rating ? current : max
+                      );
+                      bestRatedProviders[category] = bestRatedProvider;
+                    }
+                  }
+                );
+                const providersList = Object.keys(bestRatedProviders).map(
+                  (key) => {
+                    return bestRatedProviders[key];
+                  }
+                );
+                setProviders(providersList);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } catch (error) {
         console.log(error);
-      });
+      }
+    }
   }
-
-  useEffect(() => {
-    getProviders();
-  }, []);
-
-  // async function getOrders() {
-  //   let ordersId = localStorage.getItem("orderIds");
-  //   let userData = JSON.parse(user);
-  //   if (userData?.role) {
-  //     setRole(userData.role);
-  //   }
-  //   axios
-  //     .get("http://localhost:9000/api/order")
-  //     .then(function (response) {
-  //       setProviders(response.data.orders);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
-
-  // useEffect(() => {
-  //   getOrders();
-  // }, []);
 
   const handleSearchChange = (val) => {
     if (val === "") setSearchResults([]);
@@ -275,7 +326,7 @@ function HomeScreen() {
                             className="w-100"
                             variant="dark"
                             onClick={() => {
-                              handleBookAppointment(provider.id);
+                              handleBookAppointment(provider.serviceId);
                             }}
                           >
                             Book Appointment
@@ -289,15 +340,6 @@ function HomeScreen() {
             : null}
         </Row>
       </Container>
-
-      {/* <Form.Control
-        type="search"
-        placeholder="Search"
-        className="me-2"
-        aria-label="Search"
-        value={searchValue}
-        onChange={handleSearchChange}
-      /> */}
     </Layout>
   );
 }

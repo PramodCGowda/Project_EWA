@@ -54,7 +54,7 @@ export default function ProfileMenuScreen() {
       },
       {
         name: "My View",
-        icon: <DollarSign size="40" />,
+        icon: <TrendingUp size="40" />,
         description: "Data Analytics",
         goto: "/userview",
       },
@@ -86,7 +86,7 @@ export default function ProfileMenuScreen() {
       },
       {
         name: "My View",
-        icon: <DollarSign size="40" />,
+        icon: <TrendingUp size="40" />,
         description: "Data Analytics",
         goto: "/adminView",
       },

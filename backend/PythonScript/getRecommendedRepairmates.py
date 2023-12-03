@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import faiss
 from langchain.embeddings import OpenAIEmbeddings
@@ -6,7 +7,7 @@ import os
 
 # load_dotenv(".env")
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 
 real_embeddings = OpenAIEmbeddings()
 
@@ -92,4 +93,4 @@ distance, indices = index.search(test_sample, top_N_recommendations)
 
 recommended_services = np.array(all_services)[indices]
 
-print(recommended_services.tolist()[0])
+print(json.dumps(recommended_services.tolist()[0]))

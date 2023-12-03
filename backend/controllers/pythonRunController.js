@@ -1,11 +1,44 @@
 const express = require("express");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
+const path = require("path");
 
 const router = express.Router();
-const pythonCommand = "python";
-const pythonScriptPath =
-  "/Users/pramodcgowda/Desktop/learn/Courses_Additional/EWA/Project/RepairMate/backend/PythonScript/getRecommendedRepairmates.py";
+
+const pythonVersionCommand = "python --version";
+const python3VersionCommand = "python3 --version";
+
+let pythonCommand;
+let pythonScriptPath;
+
+const setPythonPath = async () => {
+  try {
+    await exec(python3VersionCommand);
+    pythonCommand = "python3";
+    pythonScriptPath = path.join(
+      __dirname,
+      "..",
+      "PythonScript",
+      "getRecommendedRepairmates.py"
+    );
+  } catch (error1) {
+    try {
+      await exec(pythonVersionCommand);
+      pythonCommand = "python";
+      pythonScriptPath = path.join(
+        __dirname,
+        "..",
+        "PythonScript",
+        "getRecommendedRepairmates.py"
+      );
+    } catch (error2) {
+      console.error("Error: Python not found on the system.");
+      process.exit(1);
+    }
+  }
+};
+
+setPythonPath();
 
 router.use((req, res, next) => {
   console.log("Time: ", Date.now());
@@ -15,7 +48,7 @@ router.use((req, res, next) => {
 // -----------------GET REQUESTS
 
 const getRecommendedMates = async (req, res) => {
-  const queryString = req.body.queryString;
+  const queryString = req.query.queryString;
   try {
     const { stdout, stderr } = await exec(
       `${pythonCommand} ${pythonScriptPath} ${queryString}`
